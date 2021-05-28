@@ -1,0 +1,41 @@
+1. ModuleNotFoundError: No module named 'PyQt5.QAxContainer'
+   위와 같은 에러가 났을 때 터미널 창에 아래의 명령을 실행시켜야 한다.
+
+   pip install PyQt5==5.13
+
+
+2. 대신증권 API를 사용하고자 모듈을 임포트 할 때 login모듈을 가져오는 선언을 다른 모듈을 가져오는 선언보다 아래에 위치하게 두면, 다른 모듈들이 작동하지 않으면서 오류조차 내뱉지 않고  함수를 끝내버린다. win32com.client모듈이 덮어씌워져서 그런가? 정확한 원인은 모른다.
+
+
+3. File C:\Users\kwesm\anaconda3\lib\site-packages\matplotlib\__init__.py", line 159, in _check_versions
+      from . import ft2font
+   ImportError: DLL load failed while importing ft2font
+
+   File "C:\Users\kwesm\anaconda3\lib\site-packages\PIL\Image.py", line 94, in <module>
+      from . import _imaging as core
+   ImportError: DLL load failed while importing _imaging: 지정된 프로시저를 찾을 수 없습니다.
+
+위와 같은 오류가 났을때는 아래와 같이 한다.
+
+python -m pip install --upgrade pip
+pip install --upgrade matplotlib
+pip uninstall Pillow
+pip install --upgrade Pillow
+
+위 명령어를 터미널에 입력하여 모듈을 최신화 한다.
+
+
+4. MemoryError: Unable to allocate 20.8 MiB for an array with shape (650, 4201) and data type float64 -> 인터넷 검색
+
+
+5. MySQL 실행시 아래와 같은 에러가 나타난 경우
+
+   error code 2013. lost connection to mysql server during query
+
+   쿼리 처리 제한시간보다 쿼리실행시 시간이 오래걸려서 나타나는 에러이다.
+   이에대한 해결법은 인터넷 자료로...
+   https://m.blog.naver.com/PostView.naver?blogId=reinstate10&logNo=220152896124&proxyReferer=https:%2F%2Fwww.google.com%2F
+
+
+
+6. 

@@ -1,0 +1,58 @@
+1. pywinauto 모듈을 사용할 때 gui의 구성요소 이름을 알아야 할 때 아래를 코드에 넣고 실행시켜서 오류를 낸다.
+
+app.window(title=title).Properties.print_control_identifiers()
+
+그러면 아래와 같이 오류메시지에 구성요소를 알려주게 된다.
+
+pywinauto.findbestmatch.MatchError: Could not find 'Properties' in 'dict_keys(['Edit', 'Edit0', 'Edit1', 'Edit2', 'Edit3', 'Button', 'Button0', 'Button1', 'Button2', 'Button3', 'ID 와 비밀번호를 입력해 주십시오.', 'Static', 'ID 와 비밀번호를 입력해 주십시오.Static', 'Button4', 'Button5', 'Button6', 'Button7', 'Button8', 'Button9', 'Button10', 'Button11', 'ID 와 비밀번호를 입력해 주십시오.Button'])'
+
+
+
+
+
+
+
+
+
+
+
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "editor.renderControlCharacters": false,
+  "editor.renderWhitespace": "none",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "material-icon-theme.folders.color": "#f6d573",
+  "material-icon-theme.folders.theme": "classic",
+  "terminal.integrated.inheritEnv": false,
+  "terminal.integrated.rendererType": "dom",
+  "workbench.activityBar.visible": true,
+  "workbench.colorTheme": "Atom One Dark",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.tree.indent": 2,
+  "material-icon-theme.activeIconPack": "nest",
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  },
+  "[python]": {
+    "editor.defaultFormatter": null,
+    "editor.tabSize": 4
+  },
+  "python.showStartPage": false,
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length", "120"],
+  "python.pythonPath": "C:\\Users\\kwesm\\anaconda3\\python.exe",
+  "python.autoComplete.addBrackets": true,
+  "workbench.editorAssociations": [
+    {
+      "viewType": "jupyter.notebook.ipynb",
+      "filenamePattern": "*.ipynb"
+    }
+  ]
+}
