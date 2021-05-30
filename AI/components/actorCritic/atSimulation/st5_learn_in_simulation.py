@@ -9,14 +9,14 @@ class St5_learn_in_simulation(St4_trade_calculate):
     def learning_by_simulation(self):
         """특정 조건과 시각에 따라 보상을 결정하거나 가중치를 갱신"""
         if (
-            self.pastValue == None
+            self.s1_simulation == None
             or self.pi_selected_action == None
             or self.pi_selected_action.data == 0
             or len(self.inputData) == 0
         ):
             return
         [hour, minute] = self.mySituation[2:4]
-        self.nextValue = self.v_target(self.inputData)
+        self.s2_simulation = self.v_target(self.inputData)
         if hour == 15 and minute == 19:
             currentValue = self.currentAssetValue_in_simulation()
             reward = (currentValue / self.baselineValue - 1) * 1.2
@@ -35,11 +35,12 @@ class St5_learn_in_simulation(St4_trade_calculate):
 
     def weight_update_in_simulation(self, reward: int = 0, unchain_backward: bool = True):
         """손실함수를 정의하고 신경망의 역전파를 수행한다."""
-        delta = reward + self.future_value_retention_rate * self.nextValue - self.pastValue
+        delta = reward + self.future_value_retention_rate * self.s2_simulation - self.s1_simulation
         Loss_v = delta ** 2
         Loss_pi = -F.log(self.pi_selected_action) * delta.data
         self.pi.cleargrads()
         self.v.cleargrads()
+        self.v_target.cleargrads()
         Loss_pi.backward()
         Loss_v.backward()
         if unchain_backward:

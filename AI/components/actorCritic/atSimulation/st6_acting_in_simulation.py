@@ -31,7 +31,7 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
                 break
         self.pi_selected_action = actionsList[selectedID]
         if learning:
-            self.pastValue = self.v(self.inputData)
+            self.s1_simulation = self.v(self.inputData)
 
         self.trade_in_simulation(selectedID)
         print(

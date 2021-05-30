@@ -55,12 +55,13 @@ class ControlBox(BalanceAndHoldingStatus):
         self.simulationFirstStart = False
 
     def printConsole(self):
-        code = self.lineEdit.text()
-        self.kiwoom.tr_input("opt10079")(code, "1:1틱", 1)
-        print(self.kiwoom.opt10079)
-        while self.kiwoom.remained_data:
-            self.kiwoom.tr_request_next("opt10079")
+        if self.bit32:
+            code = self.lineEdit.text()
+            self.kiwoom.tr_input("opt10079")(code, "1:1틱", 1)
             print(self.kiwoom.opt10079)
+            while self.kiwoom.remained_data:
+                self.kiwoom.tr_request_next("opt10079")
+                print(self.kiwoom.opt10079)
 
     # def findOutNameByCodeChange(self):
     #     code = self.lineEdit.text()

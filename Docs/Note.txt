@@ -25,7 +25,25 @@ pip install --upgrade Pillow
 위 명령어를 터미널에 입력하여 모듈을 최신화 한다.
 
 
-4. MemoryError: Unable to allocate 20.8 MiB for an array with shape (650, 4201) and data type float64 -> 인터넷 검색
+4. 
+   Traceback (most recent call last):
+   File "D:\Programming\Project\project1_algorithmTrading\GUI_template_PyQt5\automaticCycleOperation.py", line 24, in AI_simulationPerNsec
+      self.ai.simulation_at_one_point(learning=self.checkBox_include_learning.isChecked())
+   File "D:\Programming\Project\project1_algorithmTrading\AI\components\actorCritic\atSimulation\st6_acting_in_simulation.py", line 15, in simulation_at_one_point
+      self.actingAndStateChange(learning)
+   File "D:\Programming\Project\project1_algorithmTrading\AI\components\actorCritic\atSimulation\st6_acting_in_simulation.py", line 41, in actingAndStateChange
+      self.learning_by_simulation()
+   File "D:\Programming\Project\project1_algorithmTrading\AI\components\actorCritic\atSimulation\st5_learn_in_simulation.py", line 31, in learning_by_simulation
+      self.weight_update_in_simulation()
+   File "D:\Programming\Project\project1_algorithmTrading\AI\components\actorCritic\atSimulation\st5_learn_in_simulation.py", line 48, in weight_update_in_simulation
+      self.optimizer_for_pi.update()
+   File "D:\Programming\Project\project1_algorithmTrading\AI\dezero\optimizers.py", line 25, in update
+      self.update_one(param)
+   File "D:\Programming\Project\project1_algorithmTrading\AI\dezero\optimizers.py", line 55, in update_one
+      param.data -= self.lr * param.grad.data
+   MemoryError: Unable to allocate 20.8 MiB for an array with shape (650, 4201) and data type float64
+
+   -> 인터넷 검색
 
 
 5. MySQL 실행시 아래와 같은 에러가 나타난 경우

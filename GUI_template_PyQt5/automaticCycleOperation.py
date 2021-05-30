@@ -34,11 +34,13 @@ class AutomaticCycleOperation(OperationEnvironment):
         text_time = current_time.toString("hh:mm:ss")
         time_msg = "현재시간: " + text_time
 
-        state = self.kiwoom.get_connect_state()
-        if state == 1:
-            state_msg = "서버 연결 중"
-        else:
-            state_msg = "서버 미 연결 중"
+        state_msg = "Not 32bit Python"
+        if self.bit32:
+            state = self.kiwoom.get_connect_state()
+            if state == 1:
+                state_msg = "서버 연결 중"
+            else:
+                state_msg = "서버 미 연결 중"
 
         self.statusbar.showMessage(state_msg + " | " + time_msg)
 

@@ -115,7 +115,7 @@ class KiwoomLookup(loginAPI.KiwoomLogin):
         siv = self.set_input_value
         crd = self.comm_rq_data
 
-        ret = lambda: x
+        ret = lambda x: x
         if trcode == "opt10079":
             ret = lambda code_str, ticSerise_str, adjustedClosingPrice_int: self.opt10079_input.firstInput(
                 code_str, ticSerise_str, adjustedClosingPrice_int

@@ -64,7 +64,7 @@ class St1_initialize_actorCritic(Model):
         self.init_value = self.deposit_dp2
         self.baselineValue = self.currentAssetValue_in_simulation()
         self.interimBaselineValue = self.baselineValue
-        self.pastValue = None
+        self.s1_simulation = None
         self.pi_selected_action = None
 
         self.randomIntList = [i + 1 for i in np.random.choice(998, 200, replace=False)]
