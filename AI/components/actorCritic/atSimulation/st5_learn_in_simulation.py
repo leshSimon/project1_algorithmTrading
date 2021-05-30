@@ -18,6 +18,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
             reward = (currentValue / self.baselineValue - 1) * 1.2
             self.baselineValue = currentValue
             self.weight_update_in_simulation(reward=reward)
+            self.saveNetworkWeights()
         elif (hour == 11 or hour == 13) and minute == 0:
             currentValue = self.currentAssetValue_in_simulation()
             reward = (currentValue / self.interimBaselineValue - 1) * 0.8
