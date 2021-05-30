@@ -4,7 +4,7 @@
 # from stock_API.deashinAPI.db_API import *
 # from stock_API.deashinAPI.login import autoLogin
 
-from stock_API.deashinAPI.chartData import *
+# from stock_API.deashinAPI.chartData import *
 
 
 # import win32com.client
@@ -18,10 +18,14 @@ from stock_API.deashinAPI.chartData import *
 
 # mysql = MySQL_command()
 
-kospi_Nth_lists = kospi_Top_N_from_database(N_th=500).to_numpy()
-kospi_Nth_lists_code = [row[1] for row in kospi_Nth_lists]
-kospi_Nth_lists_code = kospi_Nth_lists_code[200:]
-save_chart_history_to_database(kospi_Nth_lists_code, maxCount=203000)
+# kospi_Nth_lists = kospi_Top_N_from_database(N_th=500).to_numpy()
+# kospi_Nth_lists_code = [row[1] for row in kospi_Nth_lists]
+# kospi_Nth_lists_code = kospi_Nth_lists_code[200:]
+# save_chart_history_to_database(kospi_Nth_lists_code, maxCount=203000)
 
 
 # delete_chart_by_date(20210527, code_idx_list=range(302, 501))
+
+import platform
+
+print(platform.architecture())

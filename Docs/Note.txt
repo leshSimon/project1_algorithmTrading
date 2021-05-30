@@ -1,7 +1,7 @@
 1. ModuleNotFoundError: No module named 'PyQt5.QAxContainer'
    위와 같은 에러가 났을 때 터미널 창에 아래의 명령을 실행시켜야 한다.
 
-   pip install PyQt5==5.13
+   pip install PyQt5==5.13 --user
 
 
 2. 대신증권 API를 사용하고자 모듈을 임포트 할 때 login모듈을 가져오는 선언을 다른 모듈을 가져오는 선언보다 아래에 위치하게 두면, 다른 모듈들이 작동하지 않으면서 오류조차 내뱉지 않고  함수를 끝내버린다. win32com.client모듈이 덮어씌워져서 그런가? 정확한 원인은 모른다.
@@ -15,14 +15,14 @@
       from . import _imaging as core
    ImportError: DLL load failed while importing _imaging: 지정된 프로시저를 찾을 수 없습니다.
 
-위와 같은 오류가 났을때는 아래와 같이 한다.
+   위와 같은 오류가 났을때는 아래와 같이 한다.
 
-python -m pip install --upgrade pip
-pip install --upgrade matplotlib
-pip uninstall Pillow
-pip install --upgrade Pillow
+   python -m pip install --upgrade pip
+   pip install --upgrade matplotlib
+   pip uninstall Pillow
+   pip install --upgrade Pillow
 
-위 명령어를 터미널에 입력하여 모듈을 최신화 한다.
+   위 명령어를 터미널에 입력하여 모듈을 최신화 한다.
 
 
 4. 
@@ -44,6 +44,17 @@ pip install --upgrade Pillow
    MemoryError: Unable to allocate 20.8 MiB for an array with shape (650, 4201) and data type float64
 
    -> 인터넷 검색
+
+   아나콘다 64bit 버전 사용. 그러나 64bit사용 중 32bit도 써야한다면
+   윈도우 명령프롬프트에서 다음을 실행(주석은 제외)
+
+   set CONDA_FORCE_32BIT=1
+   C:\Users\kwesm\anaconda3_64bit\Scripts\conda.exe create --name anaconda_32bit  # 아나콘다 가상환경 생성
+   conda activate anaconda_32bit               # 아나콘다 가상환경 활성화
+   conda config --env --set subdir win-32      # 32비트 가상환경 서브디렉토리
+   conda install python=3.8.5                  # 파이썬 3.8.5 설치
+
+   아나콘다 navigation에서 생성된 anaconda_32bit이라는 이름의 가상환경을 선택하고 vscode에 해당하는 것의 Launch버튼을 누르면 된다.
 
 
 5. MySQL 실행시 아래와 같은 에러가 나타난 경우

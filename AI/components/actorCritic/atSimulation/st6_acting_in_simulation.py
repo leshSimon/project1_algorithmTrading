@@ -20,6 +20,14 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         self.inputData = self.make_input_state_for_AI_in_simulation()
         if len(self.inputData) < 1:
             return
+
+        if learning:
+            self.s1_new_simulation = self.v(self.inputData)
+            self.s2_simulation = self.v_target(self.inputData)
+            self.learning_by_simulation()
+        else:
+            self.pi_selected_action.unchain_backward()
+
         actionsList = self.pi(self.inputData)
         ramdomNum = np.random.rand(1)[0]
         accum = 0
@@ -30,17 +38,11 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
                 selectedID = i
                 break
         self.pi_selected_action = actionsList[selectedID]
-        if learning:
-            self.s1_simulation = self.v(self.inputData)
 
         self.trade_in_simulation(selectedID)
         print(
             f"currentValue: {round(self.currentAssetValue_in_simulation())}, deposit: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]}"
         )
-        if learning:
-            self.learning_by_simulation()
-        else:
-            self.pi_selected_action.unchain_backward()
 
     def momentMovementForward(self):
         """시점을 1분 앞으로 이동"""
