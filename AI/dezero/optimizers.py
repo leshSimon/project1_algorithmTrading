@@ -40,7 +40,7 @@ class NewtonMethod(Optimizer):
 
     def update_one(self, param):
         gx = param.grad
-        param.cleargrads()
+        param.cleargrad()
         gx.backward()
         gx2 = param.grad
         param.data -= gx.data / gx2.data

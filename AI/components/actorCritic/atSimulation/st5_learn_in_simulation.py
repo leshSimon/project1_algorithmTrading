@@ -35,11 +35,11 @@ class St5_learn_in_simulation(St4_trade_calculate):
         delta = reward + self.future_value_retention_rate * self.s2_simulation - self.s1_old_simulation
         Loss_v = delta ** 2
         Loss_pi = -F.log(self.pi_selected_action) * delta.data
+        self.v_target.cleargrads()
+        Loss_pi.backward(retain_grad=True)
+        Loss_v.backward(retain_grad=True)
         self.pi.cleargrads()
         self.v.cleargrads()
-        self.v_target.cleargrads()
-        Loss_pi.backward()
-        Loss_v.backward()
         if unchain_backward:
             Loss_pi.unchain_backward()
             Loss_v.unchain_backward()
