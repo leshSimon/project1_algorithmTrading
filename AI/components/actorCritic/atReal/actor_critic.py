@@ -6,7 +6,7 @@ class ActorCritic(ActorCriticSimulation):
         super().__init__()
 
     def predict(self, situation):
-        a_prob_serise = self.pi(situation)
+        a_prob_serise = 0
         probability = max(a_prob_serise)
         act_index = a_prob_serise.index(probability)
         return act_index, probability

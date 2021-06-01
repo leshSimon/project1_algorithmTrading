@@ -22,13 +22,13 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
             return
 
         if learning:
-            self.s1_new_simulation = self.v(self.inputData)
-            self.s2_simulation = self.v_target(self.inputData)
+            self.s1_new_simulation = self.network.v(self.inputData)
+            self.s2_simulation = self.s1_new_simulation.data
             self.learning_by_simulation()
         else:
             self.pi_selected_action.unchain_backward()
 
-        actionsList = self.pi(self.inputData)
+        actionsList = self.network.pi(self.inputData)
         ramdomNum = np.random.rand(1)[0]
         accum = 0
         # print(actionsList)

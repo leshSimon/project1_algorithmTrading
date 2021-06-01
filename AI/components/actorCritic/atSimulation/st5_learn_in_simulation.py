@@ -19,7 +19,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
             reward = (currentValue / self.baselineValue - 1) * 1.2
             self.baselineValue = currentValue
             self.weight_update_in_simulation(reward=reward)
-            self.saveNetworkWeights()
+            self.network.save_weights()
         elif (hour == 11 or hour == 13) and minute == 0:
             currentValue = self.currentAssetValue_in_simulation()
             reward = (currentValue / self.interimBaselineValue - 1) * 0.8
@@ -30,34 +30,24 @@ class St5_learn_in_simulation(St4_trade_calculate):
         else:
             self.weight_update_in_simulation()
         if hour == 14 and minute == 0:
-            self.saveNetworkWeights()
-            self.v_target.load_weights(self.weightsFilePath_value)
+            self.network.save_weights()
 
     def weight_update_in_simulation(self, reward: int = 0):
         """손실함수를 정의하고 신경망의 역전파를 수행한다."""
-        delta = reward + self.future_value_retention_rate * self.s2_simulation - self.s1_old_simulation
-        Loss_v = delta ** 2
-        Loss_pi = -F.log(self.pi_selected_action) * delta.data
+        TD_target = reward + self.future_value_retention_rate * self.s2_simulation
+        delta = TD_target - self.s1_old_simulation
+        Loss_v = F.smooth_l1_loss(delta)
+        Loss_pi = -(F.log(self.pi_selected_action)) * delta.data
+        Loss = Loss_pi + Loss_v
         print(f"v 손실: {Loss_v}")
         print(f"pi 손실: {Loss_pi}")
 
-        self.cleargrads()
-        Loss_v.backward()
-        Loss_v.unchain_backward()
-
-        self.cleargrads()
-        Loss_pi.backward()
-        Loss_pi.unchain_backward()
-
-        self.optimizer_for_v.update()
-        self.optimizer_for_pi.update()
+        self.network.cleargrads()
+        Loss.backward()
+        Loss.unchain_backward()
+        self.optimizer.update()
 
         self.s1_old_simulation = self.s1_new_simulation
 
-        self.pi.reset_state()
-        self.v.reset_state()
-        self.v_target.reset_state()
+        # self.network.reset_state()
 
-    def saveNetworkWeights(self):
-        self.pi.save_weights(self.weightsFilePath_policy)
-        self.v.save_weights(self.weightsFilePath_value)

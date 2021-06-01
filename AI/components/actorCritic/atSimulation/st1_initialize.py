@@ -1,10 +1,8 @@
+from AI.components.networks.actor_critic_network import ActorCriticNetwork
 import datetime
 import os
 from AI.dezero import Model
 import AI.dezero.optimizers as Opt
-from AI.components.networks.policy_network import PolicyNetwork
-from AI.components.networks.value_network import ValueNetwork
-from AI.components.networks.value_target_network import ValueTargetNetwork
 from stock_API.deashinAPI.db_API import MySQL_command
 import numpy as np
 import random
@@ -40,18 +38,13 @@ class St1_initialize_actorCritic(Model):
         print("situation init for sumulation successful ✅")
 
     def networkSet(self):
-        self.weightsFilePath_policy = "AI/components/networks/policyNetworkWeights.npz"
-        self.weightsFilePath_value = "AI/components/networks/valueNetworkWeights.npz"
-        self.pi = PolicyNetwork(out_size=self.the_number_of_choices)
-        self.v = ValueNetwork()
-        self.v_target = ValueTargetNetwork()
-        if os.path.exists(self.weightsFilePath_policy):
-            self.pi.load_weights(self.weightsFilePath_policy)
-        if os.path.exists(self.weightsFilePath_value):
-            self.v.load_weights(self.weightsFilePath_value)
-            self.v_target.load_weights(self.weightsFilePath_value)
-        self.optimizer_for_pi = Opt.MomentumSGD().setup(self.pi)
-        self.optimizer_for_v = Opt.MomentumSGD().setup(self.v)
+        self.weightsFilePath = "AI/components/networks/networkWeights.npz"
+        self.network = ActorCriticNetwork(policy_network_outsize=self.the_number_of_choices)
+
+        if os.path.exists(self.weightsFilePath):
+            self.network.load_weights(self.weightsFilePath)
+
+        self.optimizer = Opt.MomentumSGD().setup(self.network)
         print("networkSet successful ✅")
 
     def simulationInit(self, startDate: int = 20190502):
@@ -74,14 +67,4 @@ class St1_initialize_actorCritic(Model):
         self.codeHashedDictInv: dict = {}
         self.pseudoTime = [random.randint(10000000, 90000000), random.randint(1, 9), random.randint(1, 38)]
         self.pseudoTimeReserved = self.pseudoTime[1:]
-
-    def reset_state(self):
-        self.pi.reset_state()
-        self.v.reset_state()
-        self.v_target.reset_state()
-
-    def cleargrads(self):
-        self.pi.cleargrads()
-        self.v.cleargrads()
-        self.v_target.cleargrads()
 

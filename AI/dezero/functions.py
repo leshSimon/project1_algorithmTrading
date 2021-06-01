@@ -87,6 +87,19 @@ def log(x):
     return Log()(x)
 
 
+def smooth_l1_loss(x):
+    x_data = x.data
+    y = 0
+    if x_data >= 1:
+        y = x - 0.5
+    elif x_data <= -1:
+        y = -x - 0.5
+    else:
+        y = (x ** 2) / 2
+
+    return y
+
+
 # =============================================================================
 # Tensor operations: reshape / transpose / get_item / expand_dims / flatten
 # =============================================================================
