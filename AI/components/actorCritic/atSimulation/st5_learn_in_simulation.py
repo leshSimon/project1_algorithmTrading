@@ -1,5 +1,6 @@
 from AI.components.actorCritic.atSimulation.st4_trade_calculate import St4_trade_calculate
 import AI.dezero.functions as F
+import gc
 
 
 class St5_learn_in_simulation(St4_trade_calculate):
@@ -24,33 +25,38 @@ class St5_learn_in_simulation(St4_trade_calculate):
             reward = (currentValue / self.interimBaselineValue - 1) * 0.8
             self.interimBaselineValue = currentValue
             self.weight_update_in_simulation(reward=reward)
+            collected = gc.collect()
+            print(f"memory garbage : {collected}")
         else:
             self.weight_update_in_simulation()
         if hour == 14 and minute == 0:
             self.saveNetworkWeights()
             self.v_target.load_weights(self.weightsFilePath_value)
 
-    def weight_update_in_simulation(self, reward: int = 0, unchain_backward: bool = True):
+    def weight_update_in_simulation(self, reward: int = 0):
         """손실함수를 정의하고 신경망의 역전파를 수행한다."""
         delta = reward + self.future_value_retention_rate * self.s2_simulation - self.s1_old_simulation
         Loss_v = delta ** 2
         Loss_pi = -F.log(self.pi_selected_action) * delta.data
+        print(f"v 손실: {Loss_v}")
+        print(f"pi 손실: {Loss_pi}")
 
-        self.pi.cleargrads()
-        self.v.cleargrads()
-        self.v_target.cleargrads()
-
-        Loss_pi.backward()
+        self.cleargrads()
         Loss_v.backward()
+        Loss_v.unchain_backward()
 
-        if unchain_backward:
-            Loss_pi.unchain_backward()
-            Loss_v.unchain_backward()
+        self.cleargrads()
+        Loss_pi.backward()
+        Loss_pi.unchain_backward()
 
-        self.optimizer_for_pi.update()
         self.optimizer_for_v.update()
+        self.optimizer_for_pi.update()
 
         self.s1_old_simulation = self.s1_new_simulation
+
+        self.pi.reset_state()
+        self.v.reset_state()
+        self.v_target.reset_state()
 
     def saveNetworkWeights(self):
         self.pi.save_weights(self.weightsFilePath_policy)

@@ -36,6 +36,7 @@ class St1_initialize_actorCritic(Model):
         self.currentMinute = int(now.strftime("%M"))
         self.simulationInit()
         self.selected_stock_shuffle_incoding_labels = [i + 1 for i in np.random.choice(500, 200)]
+        self.ai_act_kinds_state = 0
         print("situation init for sumulation successful ✅")
 
     def networkSet(self):
@@ -78,4 +79,9 @@ class St1_initialize_actorCritic(Model):
         self.pi.reset_state()
         self.v.reset_state()
         self.v_target.reset_state()
+
+    def cleargrads(self):
+        self.pi.cleargrads()
+        self.v.cleargrads()
+        self.v_target.cleargrads()
 

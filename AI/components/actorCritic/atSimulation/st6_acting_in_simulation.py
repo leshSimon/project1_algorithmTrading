@@ -31,17 +31,19 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         actionsList = self.pi(self.inputData)
         ramdomNum = np.random.rand(1)[0]
         accum = 0
-        selectedID = 4200
+        # print(actionsList)
+        self.selectedID_in_simulation = int(np.random.rand(1)[0])
         for i in range(self.the_number_of_choices):
             accum += actionsList[i].data
             if ramdomNum < accum:
-                selectedID = i
+                self.selectedID_in_simulation = i
                 break
-        self.pi_selected_action = actionsList[selectedID]
+        self.pi_selected_action = actionsList[self.selectedID_in_simulation]
+        print(f"선택확률: {self.pi_selected_action}")
 
-        self.trade_in_simulation(selectedID)
+        self.trade_in_simulation(self.selectedID_in_simulation)
         print(
-            f"currentValue: {round(self.currentAssetValue_in_simulation())}, deposit: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]}"
+            f"총자산: {round(self.currentAssetValue_in_simulation())}, 잔고: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]} / ACT: {self.selectedID_in_simulation} {self.AI_act_explicate()}"
         )
 
     def momentMovementForward(self):

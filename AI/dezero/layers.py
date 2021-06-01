@@ -256,11 +256,19 @@ class LSTM(Layer):
         self.h2i = Linear(H, in_size=H, nobias=True)
         self.h2o = Linear(H, in_size=H, nobias=True)
         self.h2u = Linear(H, in_size=H, nobias=True)
-        self.reset_state()
-
-    def reset_state(self):
         self.h = None
         self.c = None
+
+    def reset_state(self):
+        h_temp = self.h
+        c_temp = self.c
+        self.h = None
+        self.c = None
+        if h_temp != None and c_temp != None:
+            self.h = Parameter(h_temp.data)
+            self.c = Parameter(c_temp.data)
+        h_temp = None
+        c_temp = None
 
     def forward(self, x):
         if self.h is None:
