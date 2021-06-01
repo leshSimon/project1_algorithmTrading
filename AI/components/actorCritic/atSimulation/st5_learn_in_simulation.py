@@ -19,7 +19,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
             reward = (currentValue / self.baselineValue - 1) * 1.2
             self.baselineValue = currentValue
             self.weight_update_in_simulation(reward=reward)
-            self.network.save_weights()
+            self.saveNetworkWeights()
         elif (hour == 11 or hour == 13) and minute == 0:
             currentValue = self.currentAssetValue_in_simulation()
             reward = (currentValue / self.interimBaselineValue - 1) * 0.8
@@ -30,7 +30,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
         else:
             self.weight_update_in_simulation()
         if hour == 14 and minute == 0:
-            self.network.save_weights()
+            self.saveNetworkWeights()
 
     def weight_update_in_simulation(self, reward: int = 0):
         """손실함수를 정의하고 신경망의 역전파를 수행한다."""
@@ -51,3 +51,5 @@ class St5_learn_in_simulation(St4_trade_calculate):
 
         # self.network.reset_state()
 
+    def saveNetworkWeights(self):
+        self.network.save_weights(self.weightsFilePath)
