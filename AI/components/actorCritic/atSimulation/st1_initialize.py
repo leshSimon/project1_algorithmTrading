@@ -49,8 +49,8 @@ class St1_initialize_actorCritic(Model):
         if os.path.exists(self.weightsFilePath_value):
             self.v.load_weights(self.weightsFilePath_value)
             self.v_target.load_weights(self.weightsFilePath_value)
-        self.optimizer_for_pi = Opt.NewtonMethod().setup(self.pi)
-        self.optimizer_for_v = Opt.NewtonMethod().setup(self.v)
+        self.optimizer_for_pi = Opt.MomentumSGD().setup(self.pi)
+        self.optimizer_for_v = Opt.MomentumSGD().setup(self.v)
         print("networkSet successful ✅")
 
     def simulationInit(self, startDate: int = 20190502):
