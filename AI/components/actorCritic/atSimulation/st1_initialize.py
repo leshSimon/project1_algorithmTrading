@@ -37,7 +37,7 @@ class St1_initialize_actorCritic:
         print("situation init for sumulation successful ✅")
 
     def networkSet(self):
-        self.weightsFilePath = "AI/components/networks/networkWeights.npz"
+        self.weightsFilePath = "networkWeights.npz"
         self.network = ActorCriticNetwork(policy_network_outsize=self.the_number_of_choices)
 
         if os.path.exists(self.weightsFilePath):

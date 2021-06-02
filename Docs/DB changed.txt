@@ -41,20 +41,6 @@ ALTER TABLE `algorithm_trading`.`kospi200_candle_minute`
 ADD COLUMN `minute` SMALLINT UNSIGNED NOT NULL AFTER `hour`,
 CHANGE COLUMN `at_time` `hour` SMALLINT UNSIGNED NOT NULL ;
 
-
-
-
-
-
-
-
-
-
-
-
-
-// 2021-5-27
-
 CREATE TABLE `selected_by_code` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `code` mediumint unsigned NOT NULL,
@@ -70,3 +56,4 @@ CREATE TABLE `selected_by_code` (
   KEY `info2code_in_selected_idx` (`code`),
   CONSTRAINT `info2code_in_selected` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
