@@ -19,7 +19,7 @@ class AutomaticCycleOperation(OperationEnvironment):
         self.timer_AI_trigger.start(1000 * 1)
         self.timer_AI_trigger.timeout.connect(self.AI_simulationPerNsec)
 
-    def AI_simulationPerNsec(self,):
+    def AI_simulationPerNsec(self):
         if self.ai_run_in_simulation:
             self.ai.simulation_at_one_point(learning=self.checkBox_include_learning.isChecked())
             self.check_balance_in_simulation()
