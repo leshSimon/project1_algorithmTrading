@@ -15,7 +15,7 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
                 self.actingAndStateChange(learning)
             self.momentMovementForward()
 
-    def actingAndStateChange(self, learning: bool = True):
+    def actingAndStateChange(self, learning: bool = True) -> bool:
         """행동을 취하고 그 결과를 처리"""
         self.inputData = self.make_input_state_for_AI_in_simulation()
         if len(self.inputData) < 1:
@@ -39,12 +39,12 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
                 self.selectedID_in_simulation = i
                 break
         self.pi_selected_action = actionsList[self.selectedID_in_simulation]
-        print(f"선택확률: {self.pi_selected_action}")
 
         self.trade_in_simulation(self.selectedID_in_simulation)
         print(
             f"총자산: {round(self.currentAssetValue_in_simulation())}, 잔고: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]} / ACT: {self.selectedID_in_simulation} {self.AI_act_explicate()}"
         )
+        return
 
     def momentMovementForward(self):
         """시점을 1분 앞으로 이동"""

@@ -26,7 +26,7 @@ class ControlBox(BalanceAndHoldingStatus):
             self.ai_run_in_imitation = True
         else:
             if self.simulationFirstStart:
-                self.ai.simulationInit(startDate=20190515)
+                self.ai.simulationInit(startDate=20190518)
                 self.simulationFirstStart = False
             self.ai_run_in_simulation = True
 

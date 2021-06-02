@@ -24,6 +24,9 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
             return []
         if self.new_date != self.mySituation[1]:
             self.data_precured_byDate()
+            if len(self.atDateData) < 1:
+                self.mySituation[1] += 1
+                return []
             self.new_date = self.mySituation[1]
         if self.new_hour != self.mySituation[2]:
             self.atHourData = self.atDateData[self.atDateData["hour"] == self.mySituation[2]]

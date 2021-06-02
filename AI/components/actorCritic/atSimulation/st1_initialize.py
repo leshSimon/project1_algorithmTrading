@@ -1,14 +1,13 @@
 from AI.components.networks.actor_critic_network import ActorCriticNetwork
 import datetime
 import os
-from AI.dezero import Model
 import AI.dezero.optimizers as Opt
 from stock_API.deashinAPI.db_API import MySQL_command
 import numpy as np
 import random
 
 
-class St1_initialize_actorCritic(Model):
+class St1_initialize_actorCritic:
     def __init__(
         self,
         the_number_of_choices: int = 4201,
@@ -58,6 +57,7 @@ class St1_initialize_actorCritic(Model):
         self.init_value = self.deposit_dp2
         self.baselineValue = self.currentAssetValue_in_simulation()
         self.interimBaselineValue = self.baselineValue
+        self.per30minuteValue = self.baselineValue
         self.s1_old_simulation = None
         self.s1_new_simulation = None
         self.pi_selected_action = None
