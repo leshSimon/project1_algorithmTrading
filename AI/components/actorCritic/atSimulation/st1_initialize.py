@@ -31,8 +31,9 @@ class St1_initialize_actorCritic:
         self.today = int(now.strftime("%Y%m%d"))
         self.currentHour = int(now.strftime("%H"))
         self.currentMinute = int(now.strftime("%M"))
+
+        self.inputData = None
         self.simulationInit()
-        self.selected_stock_shuffle_incoding_labels = [i + 1 for i in np.random.choice(500, 200)]
         self.ai_act_kinds_state = 0
 
     def networkSet(self):
@@ -46,10 +47,9 @@ class St1_initialize_actorCritic:
         print("networkSet successful ✅")
 
     def simulationInit(self, startDate: int = 20190502):
-        print("Accessed in simulation_at_one_point function ✅")
         self.deposit_dp2 = 1000000
         self.mySituation = [self.deposit_dp2, startDate, 9, 0]  # [d+2예수금, 날짜, 시, 분]
-        self.portfolio = [[0, 0, 0, 0, 0] for _ in range(20)]  # [종목명, 보유량, 수수료 총합, 현재가, 매입가 평균]
+        self.portfolio = [[-1, 0, 0, 0, 0] for _ in range(20)]  # [종목명, 보유량, 수수료 총합, 현재가, 매입가 평균]
         self.new_date = 0
         self.new_hour = 8
 
@@ -61,8 +61,8 @@ class St1_initialize_actorCritic:
         self.s1_new_simulation = None
         self.pi_selected_action = None
 
-        self.codeListInMarket = np.zeros(shape=(200,), dtype=np.int8)
-        self.exileCodeStack = np.zeros(shape=(200,), dtype=np.int8)
+        self.codeListInMarket = [0 for _ in range(200)]
+        self.exileCodeStack = [0 for _ in range(200)]
         self.pseudoTime = [random.randint(10000000, 90000000), random.randint(1, 9), random.randint(1, 38)]
         self.pseudoTimeReserved = self.pseudoTime[1:]
 

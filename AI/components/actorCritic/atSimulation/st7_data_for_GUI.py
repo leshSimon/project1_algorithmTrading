@@ -28,7 +28,7 @@ class St7_data_for_GUI(St6_acting_in_simulation):
         data = []
         for stock in pf:
             [code, quant, fee, price, buy_price] = stock
-            if code != 0:
+            if code != -1:
                 code = self.codeDecoding(code)
                 gainOrLoss = (price - buy_price) * quant - fee
                 rate = round((((price * quant) - fee) / (buy_price * quant) - 1) * 100, 2)

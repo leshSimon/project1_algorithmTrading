@@ -10,7 +10,6 @@ class St2_library_in_simulation(St1_initialize_actorCritic):
         """현재 총 자산가치를 계산해주는 함수(시뮬레이션에서)"""
         ret = self.deposit_dp2
         for stock in self.portfolio:
-            [code, quant, fee, price, _] = stock
-            if code != 0:
-                ret = ret + quant * price - fee
+            [_, quant, fee, price, _] = stock
+            ret = ret + quant * price - fee
         return ret

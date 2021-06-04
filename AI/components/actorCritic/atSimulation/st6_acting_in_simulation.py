@@ -18,6 +18,7 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
     def actingAndStateChange(self, learning: bool = True) -> bool:
         """행동을 취하고 그 결과를 처리"""
         self.inputData = self.make_input_state_for_AI_in_simulation()
+
         if len(self.inputData) < 1:
             return
 
@@ -31,7 +32,6 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         actionsList = self.network.pi(self.inputData)
         ramdomNum = np.random.rand(1)[0]
         accum = 0
-        # print(actionsList)
         self.selectedID_in_simulation = int(np.random.rand(1)[0])
         for i in range(self.the_number_of_choices):
             accum += actionsList[i].data
@@ -41,6 +41,8 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         self.pi_selected_action = actionsList[self.selectedID_in_simulation]
 
         self.trade_in_simulation(self.selectedID_in_simulation)
+        self.exiledCodeSell()
+        print(self.portfolio)
         print(
             f"총자산: {round(self.currentAssetValue_in_simulation())}, 잔고: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]} / ACT: {self.selectedID_in_simulation} {self.AI_act_explicate()}"
         )
@@ -70,5 +72,8 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
             self.mySituation[1] = year * 10000 + 10101
             year += 1
 
-    def exiledCodeSell():
-        pass
+    def exiledCodeSell(self):
+        for idx, value in enumerate(self.exileCodeStack):
+            if value > 4:
+                self.exileCodeStack[idx] = 0
+                self.selling_in_simulation_by_code(idx, 1)
