@@ -1,4 +1,4 @@
-from AI.components.actorCritic.atSimulation.st4_trade_calculate import St4_trade_calculate
+from AI.components.construction.atSimulation.st4_trade_calculate import St4_trade_calculate
 import AI.dezero.functions as F
 import gc
 import numpy as np

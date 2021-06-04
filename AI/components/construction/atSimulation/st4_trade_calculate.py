@@ -1,4 +1,5 @@
-from AI.components.actorCritic.atSimulation.st3_make_input_in_simulation import St3_make_input_in_simulation
+from AI.components.construction.lib.convenient import actAndActionIdxDecide
+from AI.components.construction.atSimulation.st3_make_input_in_simulation import St3_make_input_in_simulation
 import math
 
 
@@ -8,21 +9,21 @@ class St4_trade_calculate(St3_make_input_in_simulation):
 
     def trade_in_simulation(self, actionIndex: int):
         """actionIndex가 결정되면 시뮬레이션에서 구체적인 행위를 수행."""
-        if actionIndex < 0 or actionIndex >= 4200:  # hold
+        decide: dict = actAndActionIdxDecide(actionIndex)
+        if decide["act"] == "hold":
             self.ai_act_kinds_state = 4201
             return
-        elif actionIndex < 4000:  # buy
-            buyingIndex: int = actionIndex // 20
-            closePrice = self.menuForInput[buyingIndex][3]
+        elif decide["act"] == "buy":
+            buyId: int = decide["index"]
+            closePrice = self.menu[buyId][4]
             if closePrice == 0:
                 self.ai_act_kinds_state = 1001
                 return
             my_folio = [info[0] for info in self.portfolio]
-            if (-1 not in my_folio) and (buyingIndex not in my_folio):
+            if (-1 not in my_folio) and (buyId not in my_folio):
                 self.ai_act_kinds_state = 1003
                 return
-            buyAmountRate: float = (actionIndex % 20 + 1) / 20
-            buyingBudget = self.deposit_dp2 * buyAmountRate * 0.95
+            buyingBudget = self.deposit_dp2 * decide["amount_rate"] * 0.95
             buyingQuantity: int = math.floor(buyingBudget / closePrice)
             if buyingQuantity < 1:
                 self.ai_act_kinds_state = 1002
@@ -32,7 +33,7 @@ class St4_trade_calculate(St3_make_input_in_simulation):
 
             targetStockCodeInLst = False
             for index, lst in enumerate(self.portfolio):
-                if buyingIndex == lst[0]:
+                if buyId == lst[0]:
                     targetStockCodeInLst = True
                     self.portfolio[index][4] = math.ceil(
                         ((self.portfolio[index][1] * self.portfolio[index][4]) + purchasePrice)
@@ -44,23 +45,20 @@ class St4_trade_calculate(St3_make_input_in_simulation):
             if not targetStockCodeInLst:
                 for index, lst in enumerate(self.portfolio):
                     if lst[0] == -1:
-                        self.portfolio[index] = [buyingIndex, buyingQuantity, transactionFee, closePrice, closePrice]
+                        self.portfolio[index] = [buyId, buyingQuantity, transactionFee, closePrice, closePrice]
                         break
 
             self.deposit_dp2 -= purchasePrice
             self.mySituation[0] = self.deposit_dp2
             self.ai_act_kinds_state = 1000
-        else:  # sell
-            actionIndex -= 4000
-            sellingIndex: int = actionIndex // 10
-            sellAmountRate: float = (actionIndex % 10 + 1) / 10
-            self.selling_in_simulation_by_sellingIndex(sellingIndex, sellAmountRate)
+        elif decide["act"] == "sell":
+            self.selling_in_simulation_by_sellingIndex(decide["index"], decide["amount_rate"])
 
     def selling_in_simulation_by_sellingIndex(self, sellingIndex: int, sellAmountRate: float):
         targetCount = 0
         targetStockCode = -1
-        for idx, inputed in enumerate(self.menuForInput):
-            if inputed[5] > 0:
+        for idx, inputed in enumerate(self.menu):
+            if inputed[6] > 0:
                 if sellingIndex == targetCount:
                     targetStockCode = idx
                     break
@@ -70,7 +68,9 @@ class St4_trade_calculate(St3_make_input_in_simulation):
             return
         self.selling_in_simulation_by_code(targetStockCode, sellAmountRate)
 
-    def selling_in_simulation_by_code(self, targetStockCode: int, sellAmountRate: float):
+    def selling_in_simulation_by_code(
+        self, targetStockCode: int, sellAmountRate: float, compulsoryDisposition: bool = False
+    ):
         """매도 행위를 하는 함수(시뮬레이션에서)"""
         targetStock = None
         whereIsTargetStock = -1
@@ -85,7 +85,7 @@ class St4_trade_calculate(St3_make_input_in_simulation):
 
         [_, reserveAmount, fee, currentPrice, _] = targetStock
         sellingQuantity: int = math.floor(reserveAmount * sellAmountRate)
-        if sellingQuantity < 1:
+        if sellingQuantity < 1 and not compulsoryDisposition:
             self.ai_act_kinds_state = 2002
             return
         paymentFee = fee * (sellingQuantity / reserveAmount)
@@ -97,7 +97,10 @@ class St4_trade_calculate(St3_make_input_in_simulation):
             self.portfolio[whereIsTargetStock][2] -= paymentFee
         self.deposit_dp2 = self.deposit_dp2 + totalSellingPrice - paymentFee
         self.mySituation[0] = self.deposit_dp2
-        self.ai_act_kinds_state = 2000
+        if compulsoryDisposition:
+            print("[강제청산] 5분 이상 해당 주식정보 미획득")
+        else:
+            self.ai_act_kinds_state = 2000
 
     def sellThemAll_in_simulation(self):
         """전량매도행위를 하는 함수(시뮬레이션에서)"""

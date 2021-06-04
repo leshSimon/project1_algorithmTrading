@@ -1,4 +1,4 @@
-from AI.components.actorCritic.atSimulation.stFinal_actorcritic_for_simulation import ActorCriticSimulation
+from AI.components.construction.atSimulation.stFinal_actorcritic_for_simulation import ActorCriticSimulation
 
 
 class ActorCritic(ActorCriticSimulation):

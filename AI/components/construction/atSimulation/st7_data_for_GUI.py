@@ -1,4 +1,4 @@
-from AI.components.actorCritic.atSimulation.st6_acting_in_simulation import St6_acting_in_simulation
+from AI.components.construction.atSimulation.st6_acting_in_simulation import St6_acting_in_simulation
 import math
 
 

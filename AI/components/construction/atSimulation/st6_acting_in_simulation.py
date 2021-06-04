@@ -1,4 +1,4 @@
-from AI.components.actorCritic.atSimulation.st5_learn_in_simulation import St5_learn_in_simulation
+from AI.components.construction.atSimulation.st5_learn_in_simulation import St5_learn_in_simulation
 import numpy as np
 import math
 import random
@@ -42,7 +42,6 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
 
         self.trade_in_simulation(self.selectedID_in_simulation)
         self.exiledCodeSell()
-        print(self.portfolio)
         print(
             f"총자산: {round(self.currentAssetValue_in_simulation())}, 잔고: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]} / ACT: {self.selectedID_in_simulation} {self.AI_act_explicate()}"
         )
@@ -75,7 +74,7 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
     def exiledCodeSell(self):
         codeListInPortfolio = [i[0] for i in self.portfolio]
         for idx, value in enumerate(self.exileCodeStack):
-            if value > 4:
+            if value > 6 * 5:
                 self.exileCodeStack[idx] = 0
                 if idx in codeListInPortfolio:
-                    self.selling_in_simulation_by_code(idx, 1)
+                    self.selling_in_simulation_by_code(idx, 1, compulsoryDisposition=True)
