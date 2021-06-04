@@ -73,7 +73,9 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
             year += 1
 
     def exiledCodeSell(self):
+        codeListInPortfolio = [i[0] for i in self.portfolio]
         for idx, value in enumerate(self.exileCodeStack):
             if value > 4:
                 self.exileCodeStack[idx] = 0
-                self.selling_in_simulation_by_code(idx, 1)
+                if idx in codeListInPortfolio:
+                    self.selling_in_simulation_by_code(idx, 1)
