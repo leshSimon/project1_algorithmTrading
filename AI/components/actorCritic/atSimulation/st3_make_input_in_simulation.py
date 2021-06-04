@@ -7,14 +7,14 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
         super().__init__()
 
     def make_input_state_for_AI_in_simulation(self):
-        self.menu = self.past_data_in_DB()
-        if len(self.menu) == 0:
+        dataFromDB = self.past_data_in_DB()
+        if len(dataFromDB) == 0:
             return []
-        menuForInput = [np.concatenate([i[1:], [0, 0]]) for i in self.menu]  # [시가, 고가, 저가, 종가, 거래량, 보유량, 매입평균]
+        menuForInput = [np.concatenate([i, [0, 0]]) for i in dataFromDB]  # [순번, 시가, 고가, 저가, 종가, 거래량, 보유량, 매입평균]
         for idx, stock_in_protfolio in enumerate(self.portfolio):
             if stock_in_protfolio[0] != -1:
                 codeInPfInMarket: bool = False
-                for idx_in_market, stock_in_market in enumerate(self.menu):
+                for idx_in_market, stock_in_market in enumerate(dataFromDB):
                     if stock_in_protfolio[0] == stock_in_market[0]:
                         self.portfolio[idx][3] = stock_in_market[4]
                         menuForInput[idx_in_market][5] = stock_in_protfolio[1]
@@ -28,7 +28,7 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
                         [[stock_in_protfolio[3] for _ in range(4)], [0, stock_in_protfolio[1], stock_in_protfolio[4]]]
                     )
 
-        self.menuForInput = menuForInput
+        self.menu = menuForInput
 
         return np.concatenate([[self.mySituation[0]], menuForInput], axis=None)
 
