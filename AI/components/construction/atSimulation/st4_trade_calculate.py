@@ -55,6 +55,10 @@ class St4_trade_calculate(St3_make_input_in_simulation):
             self.selling_in_simulation_by_sellingIndex(decide["index"], decide["amount_rate"])
 
     def selling_in_simulation_by_sellingIndex(self, sellingIndex: int, sellAmountRate: float):
+        """
+        매도 행위를 하는 함수(시뮬레이션에서)
+        행위 index를 입력받는다.
+        """
         targetCount = 0
         targetStockCode = -1
         for idx, inputed in enumerate(self.menu):
@@ -71,7 +75,10 @@ class St4_trade_calculate(St3_make_input_in_simulation):
     def selling_in_simulation_by_code(
         self, targetStockCode: int, sellAmountRate: float, compulsoryDisposition: bool = False
     ):
-        """매도 행위를 하는 함수(시뮬레이션에서)"""
+        """
+        매도 행위를 하는 함수(시뮬레이션에서)
+        순서코드를 입력받는다.
+        """
         targetStock = None
         whereIsTargetStock = -1
         for idx, stock in enumerate(self.portfolio):
@@ -109,7 +116,7 @@ class St4_trade_calculate(St3_make_input_in_simulation):
         self.network.reset_state()
 
     def AI_act_explicate(self):
-        """행위별 결과 설명"""
+        """행위별 결과 콘솔 출력"""
         ret = ""
         if self.ai_act_kinds_state == 4201:
             ret = "[유보]"
