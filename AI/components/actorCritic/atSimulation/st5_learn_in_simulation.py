@@ -19,20 +19,23 @@ class St5_learn_in_simulation(St4_trade_calculate):
 
         if hour == 15 and minute == 19:
             currentValue = self.currentAssetValue_in_simulation()
-            reward = (currentValue / self.baselineValue - 1) * 2
+            reward = currentValue / self.baselineValue - 1
+            reward *= 2
             self.baselineValue = currentValue
             self.saveNetworkWeights()
             collected = gc.collect()
             print(f"memory garbage : {collected}")
         elif hour % 2 == 0 and minute == 0:
             currentValue = self.currentAssetValue_in_simulation()
-            reward = (currentValue / self.interimBaselineValue - 1) * 1.3
+            reward = currentValue / self.interimBaselineValue - 1
+            reward *= 1.3
             self.interimBaselineValue = currentValue
-        elif minute % 30 == 15:
+        elif minute % 15 == 12:
             currentValue = self.currentAssetValue_in_simulation()
-            reward = currentValue / self.per30minuteValue - 1
-            self.per30minuteValue = currentValue
+            reward = currentValue / self.per15minuteValue - 1
+            self.per15minuteValue = currentValue
 
+        reward *= 10
         self.weight_update_in_simulation(reward=reward)
 
     def weight_update_in_simulation(self, reward: int = 0):

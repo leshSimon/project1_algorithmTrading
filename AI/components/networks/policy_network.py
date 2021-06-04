@@ -3,7 +3,7 @@ import AI.dezero.functions as F
 
 
 class PolicyNetwork(L.Layer):
-    def __init__(self, hidden_size: int = 650, out_size: int = 650, dropout_ratio: float = 0.5):
+    def __init__(self, hidden_size: int = 170, out_size: int = 4201, dropout_ratio: float = 0.5):
         super().__init__()
         self.dropout_ratio = dropout_ratio
 
@@ -20,15 +20,14 @@ class PolicyNetwork(L.Layer):
     def __call__(self, x):
 
         y = self.lstm1(x)
-        y_mediate = F.dropout(y, dropout_ratio=self.dropout_ratio)
+        y = F.dropout(y, dropout_ratio=self.dropout_ratio)
 
-        y = self.lstm2(y_mediate)
+        y = self.lstm2(y)
         y = F.dropout(y, dropout_ratio=self.dropout_ratio)
 
         y = self.lstm3(y)
         y = F.dropout(y, dropout_ratio=self.dropout_ratio)
 
-        y = y + (y_mediate * 0.3)
         y = self.affine(y)
         y = F.softmax(y)
         y = y[0]

@@ -34,7 +34,6 @@ class St1_initialize_actorCritic:
         self.simulationInit()
         self.selected_stock_shuffle_incoding_labels = [i + 1 for i in np.random.choice(500, 200)]
         self.ai_act_kinds_state = 0
-        print("situation init for sumulation successful ✅")
 
     def networkSet(self):
         self.weightsFilePath = "networkWeights.npz"
@@ -57,14 +56,13 @@ class St1_initialize_actorCritic:
         self.init_value = self.deposit_dp2
         self.baselineValue = self.currentAssetValue_in_simulation()
         self.interimBaselineValue = self.baselineValue
-        self.per30minuteValue = self.baselineValue
+        self.per15minuteValue = self.baselineValue
         self.s1_old_simulation = None
         self.s1_new_simulation = None
         self.pi_selected_action = None
 
-        self.randomIntList = [i + 1 for i in np.random.choice(998, 200, replace=False)]
-        self.codeHashedDict: dict = {}
-        self.codeHashedDictInv: dict = {}
+        self.codeListInMarket = np.zeros(shape=(200,), dtype=np.int8)
+        self.exileCodeStack = np.zeros(shape=(200,), dtype=np.int8)
         self.pseudoTime = [random.randint(10000000, 90000000), random.randint(1, 9), random.randint(1, 38)]
         self.pseudoTimeReserved = self.pseudoTime[1:]
 

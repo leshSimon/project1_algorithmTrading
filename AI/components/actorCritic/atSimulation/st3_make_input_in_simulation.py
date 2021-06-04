@@ -10,14 +10,28 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
         self.menu = self.past_data_in_DB()
         if len(self.menu) == 0:
             return []
-        for idx, lst in enumerate(self.portfolio):
-            if lst[0] != 0:
-                for lst_menu in self.menu:
-                    if lst[0] == lst_menu[0]:
-                        self.portfolio[idx][3] = lst_menu[4]
-        npFolio = np.array(self.portfolio)
-        np.random.shuffle(npFolio)
-        return np.concatenate([np.array([self.mySituation[0]] + self.pseudoTime), npFolio, self.menu], axis=None)
+        menuForInput = [i[1:] + [0, 0] for i in self.menu]  # [시가, 고가, 저가, 종가, 거래량, 보유량, 매입평균]
+        for idx, stock_in_protfolio in enumerate(self.portfolio):
+            if stock_in_protfolio[0] != 0:
+                for idx_in_market, stock_in_market in enumerate(self.menu):
+                    if stock_in_protfolio[0] == stock_in_market[0]:
+                        self.portfolio[idx][3] = stock_in_market[4]
+                        menuForInput[idx_in_market][5] = stock_in_protfolio[1]
+                        menuForInput[idx_in_market][6] = stock_in_protfolio[4]
+
+        codeListInMenu = [i[0] for i in self.menu]
+        for stock_in_protfolio in self.portfolio:
+            idx_in_market = stock_in_protfolio[0]
+            if idx_in_market != 0:
+                if idx_in_market in codeListInMenu:
+                    self.exileCodeStack[idx_in_market] = 0
+                else:
+                    self.exileCodeStack[idx_in_market] += 1
+                    menuForInput[idx_in_market] = (
+                        [stock_in_protfolio[3] for _ in range(4)] + [0] + [stock_in_protfolio[1], stock_in_protfolio[4]]
+                    )
+
+        return np.array([self.mySituation[0]] + menuForInput)
 
     def past_data_in_DB(self):
         if self.mySituation[2] >= 15 and self.mySituation[3] >= 31:
@@ -42,26 +56,28 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
         nonExistDataCount = 200 - len(menu)
         if nonExistDataCount < 0:
             menu = menu[0:200]
-        elif nonExistDataCount > 0:
-            fake_data = [[0, 0, 0, 0, 0, 0] for _ in range(nonExistDataCount)]
-            fake_data = np.array(fake_data)
-            menu = np.concatenate((menu, fake_data), axis=0)
-        np.random.shuffle(menu)
-        return menu
+        flask = [[0, 0, 0, 0, 0] for _ in range(200)]
+        for stock in menu:
+            flask[stock[0]] = stock
+
+        return flask
 
     def codeEncoding(self, originalCode: int) -> int:
+        """종목코드에게 순서가 있는 자리를 배정해준다."""
         strOgn = str(originalCode)
-        if strOgn in self.codeHashedDictInv:
-            return self.codeHashedDictInv[strOgn]
-        newKey = self.randomIntList[0]
-        self.codeHashedDict[str(newKey)] = originalCode
-        self.codeHashedDictInv[strOgn] = newKey
-        self.randomIntList = self.randomIntList[1:]
-        return newKey
+        if strOgn in self.codeListInMarket:
+            return self.codeListInMarket.index(strOgn)
+        ret = 0
+        for idx, value in enumerate(self.codeListInMarket):
+            if value == 0:
+                self.codeListInMarket[idx] = strOgn
+                ret = idx
+                break
+        return ret
 
     def codeDecoding(self, encodedCode: int) -> int:
-        strKey = str(encodedCode)
-        return self.codeHashedDict[strKey]
+        code = self.codeListInMarket[encodedCode]
+        return code
 
     def data_precured_byDate(self):
         sql = "SELECT * FROM selected_by_code where date = %s;"

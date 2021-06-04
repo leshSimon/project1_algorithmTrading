@@ -69,3 +69,6 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         if month > 12:
             self.mySituation[1] = year * 10000 + 10101
             year += 1
+
+    def exiledCodeSell():
+        pass
