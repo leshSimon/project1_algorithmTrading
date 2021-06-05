@@ -1,4 +1,4 @@
-from AI.components.construction.atReal.actor_critic import ActorCritic
+from AI.construction.atReal.actor_critic import ActorCritic
 
 
 class PyMon(ActorCritic):

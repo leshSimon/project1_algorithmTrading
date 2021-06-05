@@ -27,6 +27,7 @@
     "editor.defaultFormatter": null,
     "editor.tabSize": 4
   },
+  "python.languageServer": "Pylance",
   "python.showStartPage": false,
   "python.formatting.provider": "black",
   "python.formatting.blackArgs": ["--line-length", "120"],
