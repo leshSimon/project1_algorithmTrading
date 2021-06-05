@@ -1,5 +1,5 @@
-from AI.construction.lib.convenient import actAndActionIdxDecide
-from AI.construction.atSimulation.st3_make_input_in_simulation import St3_make_input_in_simulation
+from AI.components.lib.convenient import actAndActionIdxDecide
+from AI.components.atSimulation.st3_make_input_in_simulation import St3_make_input_in_simulation
 import math
 
 

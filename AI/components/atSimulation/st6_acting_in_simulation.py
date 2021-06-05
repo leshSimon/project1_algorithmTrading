@@ -1,4 +1,4 @@
-from AI.construction.atSimulation.st5_learn_in_simulation import St5_learn_in_simulation
+from AI.components.atSimulation.st5_learn_in_simulation import St5_learn_in_simulation
 import numpy as np
 import math
 import random

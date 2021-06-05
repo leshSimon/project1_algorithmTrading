@@ -1,5 +1,5 @@
 import torch
-from AI.construction.atSimulation.st2_library_in_simulation import St2_library_in_simulation
+from AI.components.atSimulation.st2_library_in_simulation import St2_library_in_simulation
 import numpy as np
 import random
 

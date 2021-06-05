@@ -1,4 +1,4 @@
-from AI.construction.atSimulation.st1_initialize import St1_initialize_actorCritic
+from AI.components.atSimulation.st1_initialize import St1_initialize_actorCritic
 import numpy as np
 
 

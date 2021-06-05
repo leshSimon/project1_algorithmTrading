@@ -1,5 +1,5 @@
 import torch
-from AI.construction.atSimulation.st4_trade_calculate import St4_trade_calculate
+from AI.components.atSimulation.st4_trade_calculate import St4_trade_calculate
 import gc
 import torch.nn.functional as F
 
