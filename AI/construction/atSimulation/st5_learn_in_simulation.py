@@ -42,8 +42,8 @@ class St5_learn_in_simulation(St4_trade_calculate):
     def weight_update_in_simulation(self, reward: int = 0):
         """손실함수를 정의하고 신경망의 역전파를 수행한다."""
 
-        v_s = self.network.v(self.inputData_old)
-        v_s_prime = self.network.v(self.inputData)
+        v_s = self.network_global.v(self.inputData_old)
+        v_s_prime = self.network_global.v(self.inputData)
 
         TD_target = reward + self.future_value_retention_rate * v_s_prime
         delta = TD_target - v_s
@@ -65,4 +65,4 @@ class St5_learn_in_simulation(St4_trade_calculate):
         self.inputData_old = self.inputData[:]
 
     def saveNetworkWeights(self):
-        torch.save(self.network, self.weightsFilePath)
+        torch.save(self.network_global, self.weightsFilePath)

@@ -57,3 +57,63 @@ CREATE TABLE `selected_by_code` (
   CONSTRAINT `info2code_in_selected` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+
+
+
+
+
+
+
+// 2021 - 06 - 05
+
+
+CREATE TABLE `selected_by_code2` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `code` mediumint unsigned NOT NULL,
+  `date` int unsigned NOT NULL,
+  `hour` smallint unsigned NOT NULL,
+  `minute` smallint unsigned NOT NULL,
+  `open_price` int unsigned NOT NULL,
+  `high_price` int unsigned NOT NULL,
+  `low_price` int unsigned NOT NULL,
+  `close_price` int unsigned NOT NULL,
+  `volume` int unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `info2code_in_selected_idx2` (`code`),
+  CONSTRAINT `info2code_in_selected2` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `selected_by_code3` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `code` mediumint unsigned NOT NULL,
+  `date` int unsigned NOT NULL,
+  `hour` smallint unsigned NOT NULL,
+  `minute` smallint unsigned NOT NULL,
+  `open_price` int unsigned NOT NULL,
+  `high_price` int unsigned NOT NULL,
+  `low_price` int unsigned NOT NULL,
+  `close_price` int unsigned NOT NULL,
+  `volume` int unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `info2code_in_selected_idx3` (`code`),
+  CONSTRAINT `info2code_in_selected3` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `selected_by_code4` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `code` mediumint unsigned NOT NULL,
+  `date` int unsigned NOT NULL,
+  `hour` smallint unsigned NOT NULL,
+  `minute` smallint unsigned NOT NULL,
+  `open_price` int unsigned NOT NULL,
+  `high_price` int unsigned NOT NULL,
+  `low_price` int unsigned NOT NULL,
+  `close_price` int unsigned NOT NULL,
+  `volume` int unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `info2code_in_selected_idx4` (`code`),
+  CONSTRAINT `info2code_in_selected4` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE `algorithm_trading`.`selected_by_code` 
+RENAME TO  `algorithm_trading`.`selected_by_code1` ;

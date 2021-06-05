@@ -27,7 +27,7 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         if learning:
             self.learning_by_simulation()
 
-        prediction = self.network.pi(self.inputData)
+        prediction = self.network_global.pi(self.inputData)
         actionsList = prediction.detach()[0][0]
 
         ramdomNum = np.random.rand(1)[0]

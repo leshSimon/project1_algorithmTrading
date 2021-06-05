@@ -4,6 +4,7 @@ import os
 import torch
 from stock_API.deashinAPI.db_API import MySQL_command
 import random
+import copy
 
 
 class St1_initialize_actorCritic:
@@ -12,6 +13,7 @@ class St1_initialize_actorCritic:
         the_number_of_choices: int = 4201,
         securities_transaction_fees: float = 0.0035,
         future_value_retention_rate: float = 0.995,
+        actors: int = 4,
     ):
         super().__init__()
         print("start ActorCritic class initialization")
@@ -23,7 +25,7 @@ class St1_initialize_actorCritic:
 
         self.mysql = MySQL_command()
         self.situationInit()
-        self.networkSet()
+        self.networkSet(actors)
 
     def situationInit(self):
         now = datetime.datetime.now()
@@ -35,27 +37,32 @@ class St1_initialize_actorCritic:
         self.simulationInit()
         self.ai_act_kinds_state: int = 0
 
-    def networkSet(self):
-        self.weightsFilePath = "networkWeights.pt"
-        self.network = None
+    def networkSet(self, actors: int):
+        self.weightsFilePath: str = "networkWeights.pt"
+        self.network_global = None
+        self.network_local_list = []
 
         if os.path.exists(self.weightsFilePath):
-            self.network = torch.load(self.weightsFilePath)
+            self.network_global = torch.load(self.weightsFilePath)
         else:
-            self.network = ActorCriticNetwork(policy_network_outsize=self.the_number_of_choices)
+            self.network_global = ActorCriticNetwork(policy_network_outsize=self.the_number_of_choices)
 
-        self.optimizer = self.network.optimizer
-        print("networkSet successful ✅")
+        for _ in range(actors):
+            cloneNetwork = copy.deepcopy(self.network_global)
+            self.network_local_list.append(cloneNetwork)
+
+        self.optimizer = self.network_global.optimizer
+        print(f"networkSet successful ✅ / actors: {actors}")
 
     def simulationInit(self, startDate: int = 20190502):
-        self.deposit_dp2 = 1000000
+        self.deposit_dp2: float = 1000000
         self.mySituation = [self.deposit_dp2, startDate, 9, 0]  # [d+2예수금, 날짜, 시, 분]
         self.portfolio = [[-1, 0, 0, 0, 0] for _ in range(20)]  # [종목명, 보유량, 수수료 총합, 현재가, 매입가 평균]
-        self.new_date = 0
-        self.new_hour = 8
+        self.new_date: int = 0
+        self.new_hour: int = 8
 
-        self.init_value = self.deposit_dp2
-        self.baselineValue = self.currentAssetValue_in_simulation()
+        self.init_value: float = self.deposit_dp2
+        self.baselineValue: float = self.currentAssetValue_in_simulation()
         self.interimBaselineValue = self.baselineValue
         self.per15minuteValue = self.baselineValue
         self.inputData_old = None
