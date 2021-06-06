@@ -49,12 +49,13 @@ class St1_initialize_actorCritic(nn.Module):
         self.optimizer = None
 
         self.network = ActorCriticNetwork(input_size=1401, policy_network_outsize=self.the_number_of_choices)
-        if os.path.exists(self.weightsFilePath) and self.network_global == None:
-            self.load_state_dict(torch.load(self.weightsFilePath))
-            self.optimizer = optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
-        else:
-            self.load_state_dict(self.network_global.state_dict())
-            self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.001, momentum=0.9)
+        if os.path.exists(self.weightsFilePath):
+            if self.network_global == None:
+                self.load_state_dict(torch.load(self.weightsFilePath))
+                self.optimizer = optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
+            else:
+                self.load_state_dict(self.network_global.state_dict())
+                self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.001, momentum=0.9)
 
         self.accumulatedLoss = 0
         self.globalNetSaveStep = 60 * random.randint(4, 5) + random.randint(0, 59)

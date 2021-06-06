@@ -1,6 +1,5 @@
 from torch.distributions.categorical import Categorical
 from AI.components.atSimulation.st5_learn_in_simulation import St5_learn_in_simulation
-import math
 import random
 
 import torch
@@ -21,7 +20,7 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         """
         if self.mySituation[1] < self.today:
             with torch.autograd.set_detect_anomaly(True):
-                for _ in range(random.randint(4, 6)):
+                for _ in range(random.randint(5, 6)):
                     self.actingAndStateChange(learning)
                 self.momentMovementForward()
 
@@ -42,9 +41,6 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
 
         self.trade_in_simulation(self.selectedID_in_simulation)
         self.exiledCodeSell()
-        print(
-            f"총자산: {round(self.currentAssetValue_in_simulation())}, 잔고: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]} / ACT: {self.selectedID_in_simulation} {self.AI_act_explicate()}"
-        )
         return
 
     def momentMovementForward(self):

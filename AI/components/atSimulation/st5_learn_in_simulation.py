@@ -2,6 +2,7 @@ import torch
 from AI.components.atSimulation.st4_trade_calculate import St4_trade_calculate
 import gc
 import torch.nn.functional as F
+import math
 
 
 class St5_learn_in_simulation(St4_trade_calculate):
@@ -52,9 +53,11 @@ class St5_learn_in_simulation(St4_trade_calculate):
         pi_Loss = -(torch.log(self.pi_selected_action)) * delta.detach()
         Loss = pi_Loss + v_Loss
 
-        print("=====================================================")
         print(
-            f"v 손실: {format(v_Loss.item(), '.8f')}, pi 손실: {format(pi_Loss.item(),'.8f')}, 보상: {round(reward,4)}, 선택확률: {format(self.pi_selected_action.item(),'.8f')}"
+            f"===Actor: {self.name}========================================",
+            f"총자산: {round(self.currentAssetValue_in_simulation())}, 잔고: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]} / ACT: {self.selectedID_in_simulation} {self.AI_act_explicate()}",
+            f"v 손실: {format(v_Loss.item(), '.8f')}, pi 손실: {format(pi_Loss.item(),'.8f')}, 보상: {round(reward,4)}, 선택확률: {format(self.pi_selected_action.item(),'.8f')}",
+            sep="\n",
         )
 
         if self.network_global == None:
