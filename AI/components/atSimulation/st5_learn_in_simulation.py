@@ -37,13 +37,21 @@ class St5_learn_in_simulation(St4_trade_calculate):
             self.per15minuteValue = currentValue
 
         reward *= 10
-        self.weight_update_in_simulation(reward=reward)
+        if self.name == self.default_name:
+            self.weight_update_in_simulation(reward=reward)
+        else:
+            self.weight_update_in_simulation_by_step()
+
+    def weight_update_in_simulation_by_step(self):
+        self.step += 1
+        if self.step == self.gradient_update_step_for_A3C:
+            pass
 
     def weight_update_in_simulation(self, reward: int = 0):
         """손실함수를 정의하고 신경망의 역전파를 수행한다."""
 
-        v_s = self.network_global.v(self.inputData_old)
-        v_s_prime = self.network_global.v(self.inputData)
+        v_s = self.network.v(self.inputData_old)
+        v_s_prime = self.network.v(self.inputData)
 
         TD_target = reward + self.future_value_retention_rate * v_s_prime
         delta = TD_target - v_s
@@ -65,4 +73,4 @@ class St5_learn_in_simulation(St4_trade_calculate):
         self.inputData_old = self.inputData[:]
 
     def saveNetworkWeights(self):
-        torch.save(self.network_global, self.weightsFilePath)
+        torch.save(self.state_dict(), self.weightsFilePath)

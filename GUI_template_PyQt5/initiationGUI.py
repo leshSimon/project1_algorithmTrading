@@ -9,7 +9,7 @@ form_class = uic.loadUiType("./GUI_template_PyQt5/assets/pytrader2.ui")[0]
 
 
 class Initiation_GUI(QMainWindow, form_class):
-    def __init__(self, bit32: bool = False):
+    def __init__(self, bit32: bool = False, actors: int = 2):
         super().__init__()
         self.setupUi(self)
 
@@ -19,10 +19,10 @@ class Initiation_GUI(QMainWindow, form_class):
             self.kiwoom = Kiwoom()
             self.comboBox.addItems(self.kiwoom.accounts_list)
 
-        self.ai = PyMon()
-
         self.label_operating_env.setText("시뮬레이션")
         self.ai_run_in_simulation: bool = False
         self.ai_run_in_imitation: bool = False
         self.ai_run_in_real: bool = False
         self.label_simulation_time_at.setText("")
+
+        self.ai = PyMon()

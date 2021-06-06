@@ -2,7 +2,6 @@ from AI.networks.sharing_network import SharingNetwork
 from AI.networks.value_network import ValueNetwork
 from AI.networks.policy_network import PolicyNetwork
 import torch.nn as nn
-import torch.optim as optim
 
 
 class ActorCriticNetwork(nn.Module):
@@ -19,7 +18,6 @@ class ActorCriticNetwork(nn.Module):
             hidden_size=hidden_size, out_size=policy_network_outsize, dropout_ratio=dropout_ratio
         )
         self.value_network = ValueNetwork(hidden_size=hidden_size, dropout_ratio=dropout_ratio)
-        self.optimizer = optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
 
     def pi(self, x):
         y = self.sharing_network(x)

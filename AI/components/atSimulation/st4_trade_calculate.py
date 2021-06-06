@@ -113,7 +113,7 @@ class St4_trade_calculate(St3_make_input_in_simulation):
         """전량매도행위를 하는 함수(시뮬레이션에서)"""
         for i in range(len(self.portfolio)):
             self.selling_in_simulation_by_sellingIndex(i, 1)
-        self.network_global.reset_state()
+        self.network.reset_state()
 
     def AI_act_explicate(self):
         """행위별 결과 콘솔 출력"""
