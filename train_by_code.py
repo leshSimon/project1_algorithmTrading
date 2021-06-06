@@ -1,9 +1,10 @@
+import torch
 from AI.pymon import PyMon
 import torch.multiprocessing as mp
 
 
-def train_one_net(network_global, actor_name: str):
-    network_local = PyMon(network_global=network_global, name=actor_name)
+def train_one_net(network_global, device, actor_name: str):
+    network_local = PyMon(network_global=network_global, name=actor_name).to(device)
     network_local.simulationInit(startDate=20190515)
 
     while network_local.mySituation[1] < network_local.today:
@@ -14,13 +15,18 @@ if __name__ == "__main__":
     actors = ["학생1", "학생2", "학생3"]
     network_global = PyMon()
     network_global.share_memory()
+    device = None
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
 
     mp.set_start_method("spawn")
     print("MP start method:", mp.get_start_method())
 
     processes = []
     for name in actors:
-        p = mp.Process(target=train_one_net, args=(network_global, name))
+        p = mp.Process(target=train_one_net, args=(network_global, device, name))
         p.start()
         processes.append(p)
     for p in processes:

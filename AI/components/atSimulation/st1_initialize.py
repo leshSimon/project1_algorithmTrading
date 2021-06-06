@@ -17,9 +17,9 @@ class St1_initialize_actorCritic(nn.Module):
         name: str = "Tester",
         network_global=None,
         gradient_update_step_for_A3C: int = 5,
+        device=torch.device("cpu"),
     ):
         super(St1_initialize_actorCritic, self).__init__()
-        print("start ActorCritic class initialization")
         self.fees: float = securities_transaction_fees
         self.the_number_of_choices: int = the_number_of_choices
         self.future_value_retention_rate: float = future_value_retention_rate
@@ -29,10 +29,12 @@ class St1_initialize_actorCritic(nn.Module):
         self.new_date = None
         self.new_hour = None
         self.network_global = network_global
+        self.device = device
 
         self.mysql = MySQL_command()
         self.situationInit()
         self.networkSet()
+        print(f"PyMon {name} initialized ✅")
 
     def situationInit(self):
         now = datetime.datetime.now()
@@ -47,15 +49,17 @@ class St1_initialize_actorCritic(nn.Module):
     def networkSet(self):
         self.weightsFilePath: str = "networkWeights.pt"
         self.optimizer = None
+        if torch.cuda.is_available():
+            self.device = torch.device("cuda")
 
         self.network = ActorCriticNetwork(input_size=1401, policy_network_outsize=self.the_number_of_choices)
-        if os.path.exists(self.weightsFilePath):
-            if self.network_global == None:
+        if self.network_global == None:
+            if os.path.exists(self.weightsFilePath):
                 self.load_state_dict(torch.load(self.weightsFilePath))
-                self.optimizer = optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
-            else:
-                self.load_state_dict(self.network_global.state_dict())
-                self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.001, momentum=0.9)
+            self.optimizer = optim.SGD(self.parameters(), lr=0.001, momentum=0.9)
+        else:
+            self.load_state_dict(self.network_global.state_dict())
+            self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.001, momentum=0.9)
 
         self.accumulatedLoss = 0
         self.globalNetSaveStep = 60 * random.randint(4, 5) + random.randint(0, 59)

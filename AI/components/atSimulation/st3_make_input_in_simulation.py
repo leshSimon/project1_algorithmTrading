@@ -41,6 +41,7 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
         ret = np.concatenate([[self.mySituation[0]], menuForInput], axis=None)
         ret = np.reshape(ret, (1, 1, len(ret)))
         ret = torch.Tensor(ret)
+        ret = ret.to(self.device)
 
         return ret
 

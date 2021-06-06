@@ -1,4 +1,5 @@
 # from stock_API.deashinAPI.login import autoLogin
+import torch
 from AI.pymon import PyMon
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -24,5 +25,10 @@ class Initiation_GUI(QMainWindow, form_class):
         self.ai_run_in_imitation: bool = False
         self.ai_run_in_real: bool = False
         self.label_simulation_time_at.setText("")
-
-        self.ai = PyMon()
+        
+        device = None
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+        else:
+            device = torch.device('cpu')
+        self.ai = PyMon().to(device)

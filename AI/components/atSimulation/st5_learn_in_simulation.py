@@ -3,6 +3,7 @@ from AI.components.atSimulation.st4_trade_calculate import St4_trade_calculate
 import gc
 import torch.nn.functional as F
 import math
+import copy
 
 
 class St5_learn_in_simulation(St4_trade_calculate):
@@ -84,7 +85,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
                     self.save_network_global_weights()
                     self.step %= update_step
 
-        self.inputData_old = self.inputData[:]
+        self.inputData_old = copy.deepcopy(self.inputData).to(self.device)
 
     def save_network_self_weights(self):
         if self.network_global == None:
