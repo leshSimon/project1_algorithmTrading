@@ -23,7 +23,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
             reward = currentValue / self.baselineValue - 1
             reward *= 2
             self.baselineValue = currentValue
-            self.saveNetworkWeights()
+            self.save_network_self_weights()
             collected = gc.collect()
             print(f"memory garbage : {collected}")
         elif hour % 2 == 0 and minute == 0:
@@ -37,15 +37,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
             self.per15minuteValue = currentValue
 
         reward *= 10
-        if self.name == self.default_name:
-            self.weight_update_in_simulation(reward=reward)
-        else:
-            self.weight_update_in_simulation_by_step()
-
-    def weight_update_in_simulation_by_step(self):
-        self.step += 1
-        if self.step == self.gradient_update_step_for_A3C:
-            pass
+        self.weight_update_in_simulation(reward=reward)
 
     def weight_update_in_simulation(self, reward: int = 0):
         """손실함수를 정의하고 신경망의 역전파를 수행한다."""
@@ -65,12 +57,36 @@ class St5_learn_in_simulation(St4_trade_calculate):
             f"v 손실: {format(v_Loss.item(), '.8f')}, pi 손실: {format(pi_Loss.item(),'.8f')}, 보상: {round(reward,4)}, 선택확률: {format(self.pi_selected_action.item(),'.8f')}"
         )
 
-        self.optimizer.zero_grad()
-        torch.autograd.set_detect_anomaly(True)
-        Loss.backward()
-        self.optimizer.step()
+        if self.network_global == None:
+            self.optimizer.zero_grad()
+            Loss.backward()
+            self.optimizer.step()
+        else:
+            self.step += 1
+            update_step = self.gradient_update_step_for_A3C
+            self.accumulatedLoss = self.accumulatedLoss + Loss
+
+            if self.step > 0 and self.step % update_step == 0:
+                self.optimizer.zero_grad()
+                self.accumulatedLoss.backward()
+
+                for global_param, local_param in zip(self.network_global.parameters(), self.parameters()):
+                    global_param._grad = local_param.grad
+
+                self.optimizer.step()
+                self.accumulatedLoss = 0
+                self.load_state_dict(self.network_global.state_dict())
+
+                if self.step % self.globalNetSaveStep == 0:
+                    self.save_network_global_weights()
+                    self.step %= update_step
 
         self.inputData_old = self.inputData[:]
 
-    def saveNetworkWeights(self):
-        torch.save(self.state_dict(), self.weightsFilePath)
+    def save_network_self_weights(self):
+        if self.network_global == None:
+            torch.save(self.state_dict(), self.weightsFilePath)
+
+    def save_network_global_weights(self):
+        if self.network_global != None:
+            torch.save(self.network_global.state_dict(), self.weightsFilePath)

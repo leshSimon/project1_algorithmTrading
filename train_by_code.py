@@ -3,9 +3,8 @@ import torch.multiprocessing as mp
 
 
 def train_one_net(network_global, actor_name: str):
-    network_local = PyMon(name=actor_name)
+    network_local = PyMon(network_global=network_global, name=actor_name)
     network_local.simulationInit(startDate=20190515)
-    network_local.load_state_dict(network_global.state_dict())
 
     while network_local.mySituation[1] < network_local.today:
         network_local.simulation_at_one_point(learning=True)

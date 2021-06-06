@@ -1,7 +1,8 @@
+from torch.distributions.categorical import Categorical
 from AI.components.atSimulation.st5_learn_in_simulation import St5_learn_in_simulation
-import numpy as np
 import math
 import random
+
 import torch
 
 
@@ -10,7 +11,14 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         super().__init__()
 
     def simulation_at_one_point(self, learning: bool = True):
-        """핵심 함수"""
+        """
+        핵심 함수
+
+        만약 가중치 경사 갱신 중
+        '인플레이스 연산이 일어났기 때문에 set_detect_anomaly를 사용하라'
+        라는 오류가 나왔을 땐,
+        아래의 주석을 해제한 코드로 실행해봐서 문제 위치를 찾아본다.
+        """
         if self.mySituation[1] < self.today:
             with torch.autograd.set_detect_anomaly(True):
                 for _ in range(random.randint(4, 6)):
@@ -28,17 +36,8 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
             self.learning_by_simulation()
 
         prediction = self.network.pi(self.inputData)
-        actionsList = prediction.detach()[0][0]
-
-        ramdomNum = np.random.rand(1)[0]
-        accum = 0
-        self.selectedID_in_simulation = int(np.random.rand(1)[0])
-        for i in range(self.the_number_of_choices):
-            accum += actionsList[i].item()
-            if ramdomNum < accum:
-                self.selectedID_in_simulation = i
-                break
-
+        categorized_prediction = Categorical(prediction)
+        self.selectedID_in_simulation = categorized_prediction.sample().detach().item()
         self.pi_selected_action = prediction[0][0][self.selectedID_in_simulation]
 
         self.trade_in_simulation(self.selectedID_in_simulation)
