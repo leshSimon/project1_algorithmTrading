@@ -29,4 +29,4 @@ class Initiation_GUI(QMainWindow, form_class):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.ai = PyMon().to(device)
 
-        print(f"cuda GPU is available: {torch.cuda.is_available()}")
+        print(f"cuda GPU is available?: {torch.cuda.is_available()}")

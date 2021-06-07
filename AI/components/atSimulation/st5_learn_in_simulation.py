@@ -39,11 +39,16 @@ class St5_learn_in_simulation(St4_trade_calculate):
             self.per15minuteValue = currentValue
 
         reward *= 10
-        self.weight_update_in_simulation(reward=reward)
 
-    def weight_update_in_simulation(self, reward: int = 0):
-        """손실함수를 정의하고 신경망의 역전파를 수행한다."""
+        if self.network_global == None:
+            self.weight_update_in_simulation(reward=reward)
+        else:
+            self.weight_update_A3C_in_simulation(reward=reward)
 
+        self.inputData_old = copy.deepcopy(self.inputData).to(self.device)
+
+    def loss_function_definition(self, reward: int):
+        """손실함수를 정의한다"""
         v_s = self.network.v(self.inputData_old)
         v_s_prime = self.network.v(self.inputData)
 
@@ -61,36 +66,43 @@ class St5_learn_in_simulation(St4_trade_calculate):
             sep="\n",
         )
 
-        if self.network_global == None:
+        return Loss
+
+    def weight_update_in_simulation(self, reward: int = 0):
+        """단일 개체일때 신경망의 역전파를 수행한다."""
+        Loss = self.loss_function_definition(reward)
+        self.optimizer.zero_grad()
+        Loss.backward()
+        self.optimizer.step()
+
+    def weight_update_A3C_in_simulation(self, reward: int = 0):
+        """다중 개체 중 하나일때 신경망의 역전파를 수행한다."""
+        Loss = self.loss_function_definition(reward)
+        self.step += 1
+        update_step = self.gradient_update_step_for_A3C
+        self.accumulatedLoss = self.accumulatedLoss + Loss
+
+        if self.step > 0 and self.step % update_step == 0:
             self.optimizer.zero_grad()
-            Loss.backward()
+            self.accumulatedLoss.backward()
+
+            for global_param, local_param in zip(self.network_global.parameters(), self.parameters()):
+                global_param._grad = local_param.grad
+
             self.optimizer.step()
-        else:
-            self.step += 1
-            update_step = self.gradient_update_step_for_A3C
-            self.accumulatedLoss = self.accumulatedLoss + Loss
+            self.accumulatedLoss = 0
+            self.load_state_dict(self.network_global.state_dict())
 
-            if self.step > 0 and self.step % update_step == 0:
-                self.optimizer.zero_grad()
-                self.accumulatedLoss.backward()
-
-                for global_param, local_param in zip(self.network_global.parameters(), self.parameters()):
-                    global_param._grad = local_param.grad
-
-                self.optimizer.step()
-                self.accumulatedLoss = 0
-                self.load_state_dict(self.network_global.state_dict())
-
-                if self.step % self.globalNetSaveStep == 0:
-                    self.save_network_global_weights()
-                    self.step %= update_step
-
-        self.inputData_old = copy.deepcopy(self.inputData).to(self.device)
+            if self.step % self.globalNetSaveStep == 0:
+                self.save_network_global_weights()
+                self.step %= update_step
 
     def save_network_self_weights(self):
+        """자신 인스턴스의 상태를 외부 파일로 저장"""
         if self.network_global == None:
             torch.save(self.state_dict(), self.weightsFilePath)
 
     def save_network_global_weights(self):
+        """전역 신경망 객체의 상태를 외부 파일로 저장"""
         if self.network_global != None:
             torch.save(self.network_global.state_dict(), self.weightsFilePath)
