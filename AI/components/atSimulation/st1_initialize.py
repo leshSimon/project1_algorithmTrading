@@ -17,7 +17,6 @@ class St1_initialize_actorCritic(nn.Module):
         name: str = "Tester",
         network_global=None,
         gradient_update_step_for_A3C: int = 5,
-        device=torch.device("cpu"),
     ):
         super(St1_initialize_actorCritic, self).__init__()
         self.fees: float = securities_transaction_fees
@@ -29,7 +28,7 @@ class St1_initialize_actorCritic(nn.Module):
         self.new_date = None
         self.new_hour = None
         self.network_global = network_global
-        self.device = device
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.mysql = MySQL_command()
         self.situationInit()
@@ -49,8 +48,6 @@ class St1_initialize_actorCritic(nn.Module):
     def networkSet(self):
         self.weightsFilePath: str = "networkWeights.pt"
         self.optimizer = None
-        if torch.cuda.is_available():
-            self.device = torch.device("cuda")
 
         self.network = ActorCriticNetwork(input_size=1401, policy_network_outsize=self.the_number_of_choices)
         if self.network_global == None:
@@ -62,7 +59,7 @@ class St1_initialize_actorCritic(nn.Module):
             self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.001, momentum=0.9)
 
         self.accumulatedLoss = 0
-        self.globalNetSaveStep = 60 * random.randint(4, 5) + random.randint(0, 59)
+        self.globalNetSaveStep = 60 * 5 * random.randint(4, 5) + random.randint(0, 59)
 
     def simulationInit(self, startDate: int = 20190502):
         self.deposit_dp2: float = 1000000

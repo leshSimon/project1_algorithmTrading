@@ -18,9 +18,6 @@ if __name__ == "__main__":
     network_global = PyMon().to(device=device)
     network_global.share_memory()
 
-    mp.set_start_method("spawn")
-    print("MP start method:", mp.get_start_method())
-
     processes = []
     for name in actors:
         p = mp.Process(target=train_one_net, args=(network_global, device, name,))
