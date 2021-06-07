@@ -13,20 +13,17 @@ def train_one_net(network_global, device, actor_name: str):
 
 if __name__ == "__main__":
     actors = ["학생1", "학생2", "학생3"]
-    network_global = PyMon()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    network_global = PyMon().to(device=device)
     network_global.share_memory()
-    device = None
-    if torch.cuda.is_available():
-        device = torch.device("cuda")
-    else:
-        device = torch.device("cpu")
 
     mp.set_start_method("spawn")
     print("MP start method:", mp.get_start_method())
 
     processes = []
     for name in actors:
-        p = mp.Process(target=train_one_net, args=(network_global, device, name))
+        p = mp.Process(target=train_one_net, args=(network_global, device, name,))
         p.start()
         processes.append(p)
     for p in processes:
