@@ -12,7 +12,6 @@
   "material-icon-theme.folders.color": "#f6d573",
   "material-icon-theme.folders.theme": "classic",
   "terminal.integrated.inheritEnv": false,
-  "terminal.integrated.rendererType": "dom",
   "workbench.activityBar.visible": true,
   "workbench.colorTheme": "Atom One Dark",
   "workbench.iconTheme": "material-icon-theme",
