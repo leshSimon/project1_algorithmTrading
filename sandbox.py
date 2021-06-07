@@ -1,26 +1,33 @@
+import random
+from torch import optim
 import torch.multiprocessing as mp
+from AI.networks.actor_critic_network import ActorCriticNetwork
 
 
-class Model:
-    def __init__(self, data) -> None:
-        self.data = data
+def train(model_g):
+    model_l = ActorCriticNetwork(input_size=1)
+    model_l.load_state_dict(model_g.state_dict())
+    optimizer = optim.Adam(model_g.parameters())
+    label = [random.randint(5, 15) for _ in range(10)]
+    for i in range(10):
+        result = model_l.v(i)
+        loss = (label[i] - result) ** 2
 
-    def printing(self):
-        print(f"self.data {self.data}")
-
-
-def train(model):
-    # Construct data_loader, optimizer, etc.
-    for i in range(3):
-        model.printing()
+        optimizer.zero_grad()
+        loss.backward()
+        for global_param, local_param in zip(model_g.parameters(), model_l.parameters()):
+            global_param._grad = local_param.grad
+        optimizer.step()
 
 
 if __name__ == "__main__":
     num_processes = 4
-    model = Model(12)
+    model_g = ActorCriticNetwork(input_size=1)
+    model_g.share_memory()
+
     processes = []
     for rank in range(num_processes):
-        p = mp.Process(target=train, args=(model,))
+        p = mp.Process(target=train, args=(model_g,))
         p.start()
         processes.append(p)
     for p in processes:
