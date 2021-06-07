@@ -77,5 +77,14 @@
 
 
 
-7. 
+7. pytorch에서 GPU를 사용하기 위해 cuda모듈을 설치할 필요가 있을 때 'https://pytorch.org/'에서 제시하는 아래의 명령어를
+
+   conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+
+   anaconda 프롬프트에 붙여놔서 실행시킨다.
+
+   "https://library-of-k.tistory.com/47" <-- 여기가 참고하기에 아주 좋다.
+
+
+
 

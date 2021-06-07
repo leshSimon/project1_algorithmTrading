@@ -10,7 +10,7 @@ form_class = uic.loadUiType("./GUI_template_PyQt5/assets/pytrader2.ui")[0]
 
 
 class Initiation_GUI(QMainWindow, form_class):
-    def __init__(self, bit32: bool = False, actors: int = 2):
+    def __init__(self, bit32: bool = False):
         super().__init__()
         self.setupUi(self)
 
@@ -25,10 +25,8 @@ class Initiation_GUI(QMainWindow, form_class):
         self.ai_run_in_imitation: bool = False
         self.ai_run_in_real: bool = False
         self.label_simulation_time_at.setText("")
-        
-        device = None
-        if torch.cuda.is_available():
-            device = torch.device("cuda")
-        else:
-            device = torch.device('cpu')
+
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.ai = PyMon().to(device)
+
+        print(f"cuda GPU is available: {torch.cuda.is_available()}")
