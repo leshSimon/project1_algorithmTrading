@@ -1,7 +1,6 @@
 from torch.distributions.categorical import Categorical
 from AI.components.atSimulation.st5_learn_in_simulation import St5_learn_in_simulation
 import random
-
 import torch
 
 
@@ -75,3 +74,4 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
                 if idx in codeListInPortfolio:
                     self.selling_in_simulation_by_code(idx, 1, compulsoryDisposition=True)
                     self.codeListInMarket[idx] = 0
+

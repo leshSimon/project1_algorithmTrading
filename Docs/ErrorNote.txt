@@ -113,3 +113,19 @@
       conda install -c conda-forge python-dotenv
 
 
+
+
+9. 아래와 같은 오류가 생겼을 때
+
+      ModuleNotFoundError: No module named 'PyQt5.QtWidgets'
+   
+   pip uninstall PyQt5하고 pip install PyQt5해도 안되고
+   conda install -c conda-forge ptqt5해도 패키지가 없다고 나오는 것이 참 이상했다.
+   분명 패키지를 설치 했는데 패키지가 없다고 나오는 현상이다.
+
+   그럴 땐 아래의 명령을 입력해준다.
+
+      python -m pip install PyQt5
+
+
+

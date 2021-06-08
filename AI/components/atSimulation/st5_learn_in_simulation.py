@@ -100,7 +100,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
     def save_network_self_weights(self):
         """자신 인스턴스의 상태를 외부 파일로 저장"""
         if self.network_global == None:
-            torch.save(self.state_dict(), self.weightsFilePath)
+            torch.save(self.network.state_dict(), self.weightsFilePath)
 
     def save_network_global_weights(self):
         """전역 신경망 객체의 상태를 외부 파일로 저장"""

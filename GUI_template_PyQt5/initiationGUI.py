@@ -26,7 +26,5 @@ class Initiation_GUI(QMainWindow, form_class):
         self.ai_run_in_real: bool = False
         self.label_simulation_time_at.setText("")
 
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.ai = PyMon().to(device)
+        self.ai = PyMon()
 
-        print(f"cuda GPU is available?: {torch.cuda.is_available()}")

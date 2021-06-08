@@ -34,3 +34,16 @@ if __name__ == "__main__":
         processes.append(p)
     for p in processes:
         p.join()
+
+
+class ff:
+    def __init__(self, *args) -> None:
+        pass
+
+
+class ff2(ff):
+    def __init__(self, ar) -> None:
+        super().__init__(ar)
+
+
+dd = ff2()
