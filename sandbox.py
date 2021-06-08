@@ -1,5 +1,6 @@
 import random
 from torch import optim
+import torch
 import torch.multiprocessing as mp
 from AI.networks.actor_critic_network import ActorCriticNetwork
 
@@ -10,7 +11,7 @@ def train(model_g):
     optimizer = optim.Adam(model_g.parameters())
     label = [random.randint(5, 15) for _ in range(10)]
     for i in range(10):
-        result = model_l.v(i)
+        result = model_l.v(torch.Tensor([[[i]]]))
         loss = (label[i] - result) ** 2
 
         optimizer.zero_grad()
@@ -18,6 +19,7 @@ def train(model_g):
         for global_param, local_param in zip(model_g.parameters(), model_l.parameters()):
             global_param._grad = local_param.grad
         optimizer.step()
+        print("ended")
 
 
 if __name__ == "__main__":
