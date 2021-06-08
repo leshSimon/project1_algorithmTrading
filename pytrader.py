@@ -13,6 +13,7 @@ class PyTrader:
     Initiation_GUI
     balanceAndHoldingStatus
     controlBox
+    aiControl
     operationEnvironment
     automaticCycleOperation
     

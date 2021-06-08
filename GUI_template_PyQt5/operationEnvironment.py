@@ -1,9 +1,9 @@
-from GUI_template_PyQt5.controlBox import ControlBox
+from GUI_template_PyQt5.aiControl import AiControl
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 
-class OperationEnvironment(ControlBox):
+class OperationEnvironment(AiControl):
     def __init__(self):
         super().__init__()
 

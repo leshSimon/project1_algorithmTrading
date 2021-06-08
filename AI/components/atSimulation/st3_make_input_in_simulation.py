@@ -100,7 +100,20 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
         arguments = [self.mySituation[1]]
         self.atDateData = self.mysql.query(sql, arguments=arguments)
 
-    def change_selected_stocks(self):
+    def change_selected_stocks_one(self):
+        """Table하나만 선정 종목 변경"""
+        table_name = "selected_by_code1"
+        selected_stock_list200 = [i + 1 for i in np.random.choice(500, 200, replace=False)]
+        selected_stock_list200.sort(key=lambda x: x)
+        self.mysql.mutation(f"TRUNCATE TABLE {table_name};")
+        order = 1
+        for i in selected_stock_list200:
+            sql = f"INSERT INTO {table_name} SELECT * FROM kospi200_candle_minute where code = {i};"
+            self.mysql.mutation(sql)
+            print(f"Table {table_name} Loop {order}: save finished at {i}")
+            order += 1
+
+    def change_selected_stocks_all(self):
         for table_num in range(1, 5):
             table_name = "selected_by_code" + str(table_num)
             selected_stock_list200 = [i + 1 for i in np.random.choice(500, 200, replace=False)]
