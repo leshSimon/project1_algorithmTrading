@@ -52,7 +52,7 @@ def kospi_Top_N(N_th: int = 200, sql_save: bool = False):
 
         sql = "INSERT INTO kospi500_lists (code, name) VALUES"
         sql = sql + " (%s, %s)," * (len(kospi_N) - 1) + " (%s, %s);"
-        mysql.mutation(sql, arguments=[code, name])
+        mysql.mutation(sql, arguments=for_save_to_db)
 
     return kospi_N
 

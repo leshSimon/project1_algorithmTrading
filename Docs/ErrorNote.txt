@@ -1,7 +1,7 @@
 1. ModuleNotFoundError: No module named 'PyQt5.QAxContainer'
    위와 같은 에러가 났을 때 터미널 창에 아래의 명령을 실행시켜야 한다.
 
-   pip install PyQt5==5.13 --user
+      pip install PyQt5==5.13 --user
 
 
 2. 대신증권 API를 사용하고자 모듈을 임포트 할 때 login모듈을 가져오는 선언을 다른 모듈을 가져오는 선언보다 아래에 위치하게 두면, 다른 모듈들이 작동하지 않으면서 오류조차 내뱉지 않고  함수를 끝내버린다. win32com.client모듈이 덮어씌워져서 그런가? 정확한 원인은 모른다.
@@ -17,10 +17,10 @@
 
    위와 같은 오류가 났을때는 아래와 같이 한다.
 
-   python -m pip install --upgrade pip
-   pip install --upgrade matplotlib
-   pip uninstall Pillow
-   pip install --upgrade Pillow
+      python -m pip install --upgrade pip
+      pip install --upgrade matplotlib
+      pip uninstall Pillow
+      pip install --upgrade Pillow
 
    위 명령어를 터미널에 입력하여 모듈을 최신화 한다.
 
@@ -45,21 +45,22 @@
 
    -> 인터넷 검색
 
+   메모리 부족 문제였다.
    아나콘다 64bit 버전 사용. 그러나 64bit사용 중 32bit도 써야한다면
    윈도우 명령프롬프트에서 다음을 실행(주석은 제외)
 
-   set CONDA_FORCE_32BIT=1
-   C:\Users\kwesm\anaconda3_64bit\Scripts\conda.exe create --name anaconda_32bit  # 아나콘다 가상환경 생성
-   conda activate anaconda_32bit               # 아나콘다 가상환경 활성화
-   conda config --env --set subdir win-32      # 32비트 가상환경 서브디렉토리
-   conda install python=3.8.8                  # 파이썬 3.8.5 설치
+      set CONDA_FORCE_32BIT=1
+      C:\Users\kwesm\anaconda3_64bit\Scripts\conda.exe create --name anaconda_32bit  # 아나콘다 가상환경 생성
+      conda activate anaconda_32bit               # 아나콘다 가상환경 활성화
+      conda config --env --set subdir win-32      # 32비트 가상환경 서브디렉토리
+      conda install python=3.8.8                  # 파이썬 3.8.8 설치
 
    아나콘다 navigation에서 생성된 anaconda_32bit이라는 이름의 가상환경을 선택하고 vscode에 해당하는 것의 Launch버튼을 누르면 된다.
 
 
 5. MySQL 실행시 아래와 같은 에러가 나타난 경우
 
-   error code 2013. lost connection to mysql server during query
+      error code 2013. lost connection to mysql server during query
 
    쿼리 처리 제한시간보다 쿼리실행시 시간이 오래걸려서 나타나는 에러이다.
    이에대한 해결법은 인터넷 자료로...
@@ -69,7 +70,7 @@
 
 6. pywinauto 모듈을 사용할 때 gui의 구성요소 이름을 알아야 할 때 아래를 코드에 넣고 실행시켜서 오류를 낸다.
 
-   app.window(title=title).Properties.print_control_identifiers()
+      app.window(title=title).Properties.print_control_identifiers()
 
    그러면 아래와 같이 오류메시지에 구성요소를 알려주게 된다.
 
@@ -78,13 +79,37 @@
 
 
 7. pytorch에서 GPU를 사용하기 위해 cuda모듈을 설치할 필요가 있을 때 'https://pytorch.org/'에서 제시하는 아래의 명령어를
+   cuda모듈 10.2 version을 사용하는 경우,
 
-   conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+      conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
 
    anaconda 프롬프트에 붙여놔서 실행시킨다.
 
    "https://library-of-k.tistory.com/47" <-- 여기가 참고하기에 아주 좋다.
 
 
+
+
+8. 아나콘다 64비트 설치 후 32비트 가상환경을 만들고
+   그 안에서 증권사 API를 사용하기 위해 스크립트를 실행했을 때
+   아래와 같은 오류가 발생한다면
+   
+      ImportError: DLL load failed while importing win32api: %1은(는) 올바른 Win32 응용 프로그램이 아닙니다.
+
+   아래의 명령을 실행한다
+
+      conda install -c anaconda pywin32
+
+   그리고 가상환경 안에서는 필요한 패키지를 아래의 형식으로 설치해야 한다.
+
+      conda install 패키지이름
+   
+   그런데 Anaconda에서 제공해주지 않는 패키지는 아래와 같은 에러를 내보내며 설치가 안된다
+
+      PackagesNotFoundError: The following packages are not available from current channels:
+   
+   그럴때는 아래의 예시와 같은 형식으로 설치해준다.
+
+      conda install -c conda-forge python-dotenv
 
 

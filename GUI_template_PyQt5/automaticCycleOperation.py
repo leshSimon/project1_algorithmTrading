@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from GUI_template_PyQt5.operationEnvironment import OperationEnvironment
+import torch
 
 
 class AutomaticCycleOperation(OperationEnvironment):
@@ -16,7 +17,7 @@ class AutomaticCycleOperation(OperationEnvironment):
         self.timer_checkBalance.timeout.connect(self.checkBalancePer10Sec)
 
         self.timer_AI_trigger = QTimer(self)
-        self.timer_AI_trigger.start(1000 * 1)
+        self.timer_AI_trigger.start(1000 * 0.01 if torch.cuda.is_available() else 1000 * 1)
         self.timer_AI_trigger.timeout.connect(self.AI_simulationPerNsec)
 
     def AI_simulationPerNsec(self):
