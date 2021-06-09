@@ -24,6 +24,7 @@ class PyMon(ActorCritic):
         device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
         target_database_name: str = "selected_by_code1",
     ):
+        """인자를 받아서 self에 저장하는 공간."""
         super().__init__()
         self.fees: float = securities_transaction_fees
         self.the_number_of_choices: int = the_number_of_choices

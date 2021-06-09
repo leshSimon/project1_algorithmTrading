@@ -8,15 +8,13 @@ import torch.optim as optim
 
 
 class St1_initialize_actorCritic:
-    def __init__(self):
-        # self.fees: float = 0.0035
-        # self.the_number_of_choices: int = 1
-        # self.future_value_retention_rate: float = 0
-        # self.name = "Tester"
-        # self.gradient_update_step_for_A3C: int = 5
-        # self.device = None
-        # self.network_global = None
+    """
+    초기 설정 함수들을 모아놓았다.
+    실제 초기화는 최말단 상속 클래스인 PyMon에서 한다.
+    왜냐하면 클래스 인자를 받기 위해서이다.
+    """
 
+    def __init__(self):
         self.mysql = MySQL_command()
 
     def situationInit(self):

@@ -1,6 +1,5 @@
 import torch
 from AI.components.atSimulation.st4_trade_calculate import St4_trade_calculate
-import gc
 import torch.nn.functional as F
 import math
 import copy
@@ -26,8 +25,6 @@ class St5_learn_in_simulation(St4_trade_calculate):
             reward *= 2
             self.baselineValue = currentValue
             self.save_network_self_weights()
-            collected = gc.collect()
-            print(f"memory garbage : {collected}")
         elif hour % 2 == 0 and minute == 0:
             currentValue = self.currentAssetValue_in_simulation()
             reward = currentValue / self.interimBaselineValue - 1
@@ -86,12 +83,12 @@ class St5_learn_in_simulation(St4_trade_calculate):
             self.optimizer.zero_grad()
             self.accumulatedLoss.backward()
 
-            for global_param, local_param in zip(self.network_global.parameters(), self.parameters()):
+            for global_param, local_param in zip(self.network_global.parameters(), self.network.parameters()):
                 global_param._grad = local_param.grad
 
             self.optimizer.step()
             self.accumulatedLoss = 0
-            self.load_state_dict(self.network_global.state_dict())
+            self.network.load_state_dict(self.network_global.state_dict())
 
             if self.step % self.globalNetSaveStep == 0:
                 self.save_network_global_weights()
