@@ -3,9 +3,9 @@ from AI.pymon import PyMon
 import torch.multiprocessing as mp
 
 
-def train_one_net(network_g, device, actor_name: str):
-    db_from = "selected_by_code" + actor_name[-1]
-    network_local = PyMon(network_global=network_g, name=actor_name, device=device, target_database_name=db_from)
+def train_one_net(network_g, device, actor_name: str, rank: int):
+    db_name = "selected_by_code" + str(rank + 1)
+    network_local = PyMon(network_global=network_g, name=actor_name, device=device, target_database_name=db_name)
     network_local.simulationInit(startDate=20190515)
 
     while network_local.mySituation[1] < network_local.today:
@@ -23,8 +23,8 @@ if __name__ == "__main__":
     print("MP start method:", mp.get_start_method())
 
     processes = []
-    for name in actors:
-        p = mp.Process(target=train_one_net, args=(network_global.network, device, name,))
+    for rank, name in enumerate(actors):
+        p = mp.Process(target=train_one_net, args=(network_global.network, device, name, rank))
         p.start()
         processes.append(p)
     for p in processes:
