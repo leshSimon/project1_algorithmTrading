@@ -8,34 +8,22 @@ import torch.optim as optim
 
 
 class St1_initialize_actorCritic:
-    def __init__(
-        self,
-        the_number_of_choices: int = 4201,
-        securities_transaction_fees: float = 0.0035,
-        future_value_retention_rate: float = 0.995,
-        name: str = "Tester",
-        network_global=None,
-        gradient_update_step_for_A3C: int = 5,
-        device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
-    ):
-        self.fees: float = securities_transaction_fees
-        self.the_number_of_choices: int = the_number_of_choices
-        self.future_value_retention_rate: float = future_value_retention_rate
-        self.name = name
-        self.gradient_update_step_for_A3C = gradient_update_step_for_A3C
+    def __init__(self):
+        # self.fees: float = 0.0035
+        # self.the_number_of_choices: int = 1
+        # self.future_value_retention_rate: float = 0
+        # self.name = "Tester"
+        # self.gradient_update_step_for_A3C: int = 5
+        # self.device = None
+        # self.network_global = None
+
+        self.mysql = MySQL_command()
+
+    def situationInit(self):
         self.step = 0
         self.new_date = None
         self.new_hour = None
-        self.network_global = network_global
-        self.device = device
-        print(f"cuda GPU is available?: {torch.cuda.is_available()}")
 
-        self.mysql = MySQL_command()
-        self.situationInit()
-        self.networkSet()
-        print(f"PyMon {name} initialized ✅")
-
-    def situationInit(self):
         now = datetime.datetime.now()
         self.today = int(now.strftime("%Y%m%d"))
         self.currentHour = int(now.strftime("%H"))
@@ -55,10 +43,10 @@ class St1_initialize_actorCritic:
         if self.network_global == None:
             if os.path.exists(self.weightsFilePath):
                 self.network.load_state_dict(torch.load(self.weightsFilePath))
-            self.optimizer = optim.SGD(self.network.parameters(), lr=0.001, momentum=0.9)
+            self.optimizer = optim.SGD(self.network.parameters(), lr=0.001)
         else:
             self.network.load_state_dict(self.network_global.state_dict())
-            self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.001, momentum=0.9)
+            self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.001)
 
         self.accumulatedLoss = 0
         self.globalNetSaveStep = 60 * 5 * random.randint(4, 5) + random.randint(0, 59)
@@ -81,11 +69,3 @@ class St1_initialize_actorCritic:
         self.exileCodeStack = [0 for _ in range(200)]
         self.pseudoTime = [random.randint(10000000, 90000000), random.randint(1, 9), random.randint(1, 38)]
         self.pseudoTimeReserved = self.pseudoTime[1:]
-
-
-class ff(St1_initialize_actorCritic):
-    def __init__(self,):
-        super(St1_initialize_actorCritic, self).__init__()
-
-
-gg = ff

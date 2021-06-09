@@ -9,6 +9,7 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
         super().__init__()
 
     def make_input_state_for_AI_in_simulation(self):
+        """신경망의 input작성"""
         dataFromDB = self.past_data_in_DB()
         if len(dataFromDB) == 0:
             return []
@@ -96,8 +97,9 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
         return code
 
     def data_precured_byDate(self):
-        sql = "SELECT * FROM selected_by_code1 where date = %s;"
-        arguments = [self.mySituation[1]]
+        """특정일의 주가 데이터를 DB에서 획득"""
+        sql = "SELECT * FROM %s where date = %s;"
+        arguments = [self.target_database_name, self.mySituation[1]]
         self.atDateData = self.mysql.query(sql, arguments=arguments)
 
     def change_selected_stocks_one(self):
@@ -114,6 +116,7 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
             order += 1
 
     def change_selected_stocks_all(self):
+        """모든 Table의 선정 종목 변경"""
         for table_num in range(1, 5):
             table_name = "selected_by_code" + str(table_num)
             selected_stock_list200 = [i + 1 for i in np.random.choice(500, 200, replace=False)]

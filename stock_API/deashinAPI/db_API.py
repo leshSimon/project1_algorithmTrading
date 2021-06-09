@@ -18,9 +18,8 @@ class MySQL_command:
         )
         self.cursor = self.db_connector.cursor(pymysql.cursors.DictCursor)
 
-    def query(self, sql: str, arguments: list = []):
+    def query(self, sql: str, arguments: list or tuple = []):
         """조회 전용 메서드"""
-        arguments = tuple(arguments)
         try:
             self.cursor.execute(sql, arguments)
             result = self.cursor.fetchall()
@@ -29,9 +28,8 @@ class MySQL_command:
             print(e)
             raise
 
-    def mutation(self, sql: str, arguments: list = []):
+    def mutation(self, sql: str, arguments: list or tuple = []):
         """삽입, 수정, 삭제 메서드"""
-        arguments = tuple(arguments)
         try:
             self.cursor.execute(sql, arguments)
             self.db_connector.commit()
