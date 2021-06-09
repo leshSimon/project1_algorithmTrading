@@ -98,8 +98,8 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
 
     def data_precured_byDate(self):
         """특정일의 주가 데이터를 DB에서 획득"""
-        sql = "SELECT * FROM %s where date = %s;"
-        arguments = [self.target_database_name, self.mySituation[1]]
+        sql = f"SELECT * FROM {self.target_database_name} where date = %s;"
+        arguments = [self.mySituation[1]]
         self.atDateData = self.mysql.query(sql, arguments=arguments)
 
     def change_selected_stocks_one(self):
@@ -110,8 +110,8 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
         self.mysql.mutation(f"TRUNCATE TABLE {table_name};")
         order = 1
         for i in selected_stock_list200:
-            sql = f"INSERT INTO {table_name} SELECT * FROM kospi200_candle_minute where code = {i};"
-            self.mysql.mutation(sql)
+            sql = f"INSERT INTO {table_name} SELECT * FROM kospi200_candle_minute where code = %s;"
+            self.mysql.mutation(sql, arguments=[i])
             print(f"Table {table_name} Loop {order}: save finished at {i}")
             order += 1
 
@@ -124,7 +124,7 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
             self.mysql.mutation(f"TRUNCATE TABLE {table_name};")
             order = 1
             for i in selected_stock_list200:
-                sql = f"INSERT INTO {table_name} SELECT * FROM kospi200_candle_minute where code = {i};"
-                self.mysql.mutation(sql)
+                sql = f"INSERT INTO {table_name} SELECT * FROM kospi200_candle_minute where code = %s;"
+                self.mysql.mutation(sql, arguments=[i])
                 print(f"Table {table_num} Loop {order}: save finished at {i}")
                 order += 1
