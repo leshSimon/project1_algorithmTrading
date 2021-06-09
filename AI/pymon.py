@@ -1,3 +1,4 @@
+from random import randint
 from AI.components.atReal.actor_critic import ActorCritic
 import torch
 
@@ -20,7 +21,7 @@ class PyMon(ActorCritic):
         future_value_retention_rate: float = 0.995,
         name: str = "Tester",
         network_global=None,
-        gradient_update_step_for_A3C: int = 5,
+        gradient_update_step_for_A3C: int = 4 * randint(5, 6),
         device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
         target_database_name: str = "selected_by_code1",
     ):

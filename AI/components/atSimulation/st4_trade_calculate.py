@@ -4,6 +4,8 @@ import math
 
 
 class St4_trade_calculate(St3_make_input_in_simulation):
+    """시뮬레이션 환경에서 실제 매도 및 매수 행위가 이루어지는 계산을 하는 함수들을 모아두었다."""
+
     def __init__(self):
         super().__init__()
 

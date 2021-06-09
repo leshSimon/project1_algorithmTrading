@@ -18,6 +18,7 @@ class St1_initialize_actorCritic:
         self.mysql = MySQL_command()
 
     def situationInit(self):
+        """인자에 영향받지 않는 클래스 변수들을 설정한다."""
         self.step = 0
         self.new_date = None
         self.new_hour = None
@@ -32,6 +33,7 @@ class St1_initialize_actorCritic:
         self.ai_act_kinds_state: int = 0
 
     def networkSet(self):
+        """신경망 가동을 위한 초기 설정"""
         self.weightsFilePath: str = "networkWeights.pt"
         self.optimizer = None
 
@@ -50,6 +52,7 @@ class St1_initialize_actorCritic:
         self.globalNetSaveStep = 60 * 5 * random.randint(4, 5) + random.randint(0, 59)
 
     def simulationInit(self, startDate: int = 20190502):
+        """시뮬레이션 하기 위한 클래스 변수들을 설정한다."""
         self.deposit_dp2: float = 1000000
         self.mySituation = [self.deposit_dp2, startDate, 9, 0]  # [d+2예수금, 날짜, 시, 분]
         self.portfolio = [[-1, 0, 0, 0, 0] for _ in range(20)]  # [종목명, 보유량, 수수료 총합, 현재가, 매입가 평균]

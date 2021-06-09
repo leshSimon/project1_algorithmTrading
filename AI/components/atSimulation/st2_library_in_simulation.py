@@ -3,6 +3,8 @@ import numpy as np
 
 
 class St2_library_in_simulation(St1_initialize_actorCritic):
+    """재사용성이 높은 함수들을 모아둔다."""
+
     def __init__(self):
         super().__init__()
 

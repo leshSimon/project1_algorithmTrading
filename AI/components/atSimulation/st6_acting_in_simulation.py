@@ -18,12 +18,12 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         아래의 주석을 해제한 코드로 실행해봐서 문제 위치를 찾아본다.
         """
         if self.mySituation[1] < self.today:
-            with torch.autograd.set_detect_anomaly(True):
-                for _ in range(random.randint(5, 6)):
-                    self.actingAndStateChange(learning)
-                self.momentMovementForward()
+            # with torch.autograd.set_detect_anomaly(True):
+            for _ in range(random.randint(5, 6)):
+                self.actingAndStateChange(learning)
+            self.momentMovementForward()
 
-    def actingAndStateChange(self, learning: bool = True) -> bool:
+    def actingAndStateChange(self, learning: bool = True):
         """행동을 취하고 그 결과를 처리"""
         self.inputData = self.make_input_state_for_AI_in_simulation()
 

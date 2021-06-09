@@ -5,6 +5,8 @@ import random
 
 
 class St3_make_input_in_simulation(St2_library_in_simulation):
+    """시뮬레이션 환경에서 신경망에게 전달해 줄 input data를 작성하고 클래스 변수를 갱신한다."""
+
     def __init__(self):
         super().__init__()
 

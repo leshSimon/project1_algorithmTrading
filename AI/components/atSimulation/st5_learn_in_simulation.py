@@ -73,7 +73,10 @@ class St5_learn_in_simulation(St4_trade_calculate):
         self.optimizer.step()
 
     def weight_update_A3C_in_simulation(self, reward: int = 0):
-        """다중 개체 중 하나일때 신경망의 역전파를 수행한다."""
+        """
+        multi processing 환경에서
+        다중 행위 개체 중 하나일때 신경망의 역전파를 수행한다.
+        """
         Loss = self.loss_function_definition(reward)
         self.step += 1
         update_step = self.gradient_update_step_for_A3C
