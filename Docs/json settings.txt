@@ -39,6 +39,7 @@
       }
     ],
     "terminal.integrated.fontFamily": "MesloLGS NF",
+    "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.fontSize": 13,
     "workbench.colorCustomizations": {
       "terminal.ansiBlack": "#635b00",
