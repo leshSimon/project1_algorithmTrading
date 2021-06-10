@@ -37,8 +37,32 @@
         "viewType": "jupyter.notebook.ipynb",
         "filenamePattern": "*.ipynb"
       }
-    ]
+    ],
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "terminal.integrated.fontSize": 13,
+    "workbench.colorCustomizations": {
+      "terminal.ansiBlack": "#807500",
+      "terminal.ansiRed": "#d63031",
+      "terminal.ansiGreen": "#c8be46",
+      "terminal.ansiYellow": "#f4fd22",
+      "terminal.ansiBlue": "#636e72",
+      "terminal.ansiPurple": "#747271",
+      "terminal.ansiCyan": "#62605f",
+      "terminal.ansiWhite": "#c6c5bf",
+      "terminal.ansiBrightBlack": "#505354",
+      "terminal.ansiBrightRed": "#fff78e",
+      "terminal.ansiBrightGreen": "#fff27d",
+      "terminal.ansiBrightYellow": "#feed6c",
+      "terminal.ansiBrightBlue": "#b6b9ba",
+      "terminal.ansiBrightPurple": "#b9b6ba",
+      "terminal.ansiBrightCyan": "#fdcb6e",
+      "terminal.ansiBrightWhite": "#dadbd6",
+      "terminal.foreground": "#dfe6e9"
+    }
   }
+  
+
+
 
 2. color theme of zsh
   "defaults": {
