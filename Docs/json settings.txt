@@ -41,7 +41,7 @@
     "terminal.integrated.fontFamily": "MesloLGS NF",
     "terminal.integrated.fontSize": 13,
     "workbench.colorCustomizations": {
-      "terminal.ansiBlack": "#807500",
+      "terminal.ansiBlack": "#635b00",
       "terminal.ansiRed": "#d63031",
       "terminal.ansiGreen": "#c8be46",
       "terminal.ansiYellow": "#f4fd22",
@@ -73,7 +73,7 @@
   "schemes": [
     {
       "name": "Batman",
-      "black": "#807500",
+      "black": "#635b00",
       "red": "#d63031",
       "green": "#c8be46",
       "yellow": "#f4fd22",
