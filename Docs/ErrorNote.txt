@@ -142,3 +142,17 @@
 
 
 
+11. git cli를 사용할 때 요령
+
+   11-1. push
+      git add .
+      git commit -m "message"
+      git push -u origin master
+   
+   11-2. pull
+      git pull
+
+   11-3. clone
+      git clone (git 저장소의 URL)
+
+
