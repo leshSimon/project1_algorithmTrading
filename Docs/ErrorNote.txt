@@ -147,7 +147,7 @@
    11-1. push
       git add .
       git commit -m "message"
-      git push -u origin master
+      git push
    
    11-2. pull
       git pull
