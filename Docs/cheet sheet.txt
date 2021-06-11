@@ -1,0 +1,52 @@
+1. Linux 기본 조작 명령
+  ls                             # 현재 디렉토리의파일과 폴더 출력
+  cd [경로]                      # 입력한 경로로 이동(상대 경로)  # 예를 들어 cd ..   -> 상위 디렉토리로 이동
+  sudo -i                        # 관리자 권한 가지기
+  mkdir [폴더 이름]               # 디렉토리 생성
+  rm [파일 이름]                  # 파일 삭제
+  rm -rf [폴더 이름]              # 폴더 삭제
+  cp [현재 경로] [복사 위치]       #복사
+  du [대상 이름]                  # 대상의 용량 확인(kb 단위)
+
+
+
+2. git cli
+
+  11-1. push
+    git add .
+    git commit -m "message"
+    git push
+   
+  11-2. pull
+    git pull
+
+  11-3. clone
+    git clone (git 저장소의 URL)
+
+
+
+3. MySQL cli
+
+  12-1. 클라이언트 접근
+    sudo service mysql restart
+    sudo mysql
+  
+  12-2. DATABASE 수준
+    SHOW DATABASES
+    CREATE DATABASE aaa default character set utf8
+    DROP DATABASE aaa
+    USE aaa
+
+  12-3. TABLE 수준
+    show tables
+    describe aaa
+    truncate aaa
+  
+  12- Data Import (*.sql) to linux
+    sudo -i 자격에서
+    mysql -u root -p algorithm_trading < aaaaaaaa.sql
+  
+  12- MySQL 계정 접속 관련
+    status       # 정보확인
+
+

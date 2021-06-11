@@ -142,17 +142,25 @@
 
 
 
-11. git cli를 사용할 때 요령
 
-   11-1. push
-      git add .
-      git commit -m "message"
-      git push
-   
-   11-2. pull
-      git pull
+11. Linux에서 pymysql 사용 시 아래와 같은 에러가 나온 경우
 
-   11-3. clone
-      git clone (git 저장소의 URL)
+      pymysql.err.OperationalError: (1698, "Access denied for user 'root'@'localhost'")
+
+   접근 가능하도록 설정하기 위해서는 zsh콘솔에 아래를 입력한다.
+
+      sudo mysql -u root       # root 계정으로 접속 -> 실패시 찾아서 해결할 것
+      USE mysql;
+      SELECT User, Host, plugin FROM mysql.user;
+      update user set plugin='mysql_native_password' where user='root';
+      SET GLOBAL validate_password_policy=LOW;
+      alter user 'root'@'localhost' identified with mysql_native_password by '[원하는 비밀번호]';
+      flush privileges;
+      select user, host, plugin from user;
+      exit;
+
+   auth_socket이 mysql_native_password 으로 바뀐 것을 확인할 수 있다. 그런데 아래의 오류가 새로 등장한다.
+
+
 
 

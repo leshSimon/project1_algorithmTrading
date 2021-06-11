@@ -55,7 +55,7 @@ CREATE TABLE `selected_by_code` (
   PRIMARY KEY (`id`),
   KEY `info2code_in_selected_idx` (`code`),
   CONSTRAINT `info2code_in_selected` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 
 
@@ -81,7 +81,7 @@ CREATE TABLE `selected_by_code2` (
   PRIMARY KEY (`id`),
   KEY `info2code_in_selected_idx2` (`code`),
   CONSTRAINT `info2code_in_selected2` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 CREATE TABLE `selected_by_code3` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -97,7 +97,7 @@ CREATE TABLE `selected_by_code3` (
   PRIMARY KEY (`id`),
   KEY `info2code_in_selected_idx3` (`code`),
   CONSTRAINT `info2code_in_selected3` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 CREATE TABLE `selected_by_code4` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -113,7 +113,7 @@ CREATE TABLE `selected_by_code4` (
   PRIMARY KEY (`id`),
   KEY `info2code_in_selected_idx4` (`code`),
   CONSTRAINT `info2code_in_selected4` FOREIGN KEY (`code`) REFERENCES `kospi500_lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80616533 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 ALTER TABLE `algorithm_trading`.`selected_by_code` 
 RENAME TO  `algorithm_trading`.`selected_by_code1` ;

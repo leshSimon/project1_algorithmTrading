@@ -1,5 +1,4 @@
 # from stock_API.deashinAPI.login import autoLogin
-import torch
 from AI.pymon import PyMon
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -27,4 +26,3 @@ class Initiation_GUI(QMainWindow, form_class):
         self.label_simulation_time_at.setText("")
 
         self.ai = PyMon()
-

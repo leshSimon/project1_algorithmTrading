@@ -48,4 +48,3 @@ class AutomaticCycleOperation(OperationEnvironment):
     def checkBalancePer10Sec(self):
         if self.checkBox.isChecked():
             self.check_balance()
-

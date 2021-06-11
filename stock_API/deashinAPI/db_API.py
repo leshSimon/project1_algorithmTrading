@@ -6,8 +6,8 @@ import pandas as pd
 
 class MySQL_command:
     """
-      MySQL 데이터베이스에 접속하여 조작할 수 있게 하는 클래스.
-      메서드를 이용해 sql 쿼리문을 실행한다.
+    MySQL 데이터베이스에 접속하여 조작할 수 있게 하는 클래스.
+    메서드를 이용해 sql 쿼리문을 실행한다.
     """
 
     def __init__(self) -> None:
@@ -36,4 +36,3 @@ class MySQL_command:
         except Exception as e:
             print(e)
             raise
-
