@@ -1,7 +1,6 @@
 from torch.distributions.categorical import Categorical
 from AI.components.atSimulation.st5_learn_in_simulation import St5_learn_in_simulation
 import random
-import torch
 
 
 class St6_acting_in_simulation(St5_learn_in_simulation):
@@ -19,28 +18,38 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
         """
         if self.mySituation[1] < self.today:
             # with torch.autograd.set_detect_anomaly(True):
-            for _ in range(random.randint(5, 6)):
-                self.actingAndStateChange(learning)
-            self.momentMovementForward()
+            self.oneStep(learning=learning)
+            self.momentMoveStep += 1
+            if self.momentMoveStep > 0 and (
+                self.momentMoveStep % random.randint(5, 6) == 0 or self.momentMoveStep % 6 == 0
+            ):
+                self.momentMovementForward()
+                self.momentMoveStep = 0
 
-    def actingAndStateChange(self, learning: bool = True):
+    def oneStep(self, learning: bool = True):
         """행동을 취하고 그 결과를 처리"""
         self.inputData = self.make_input_state_for_AI_in_simulation()
-
         if len(self.inputData) < 1:
             return
-
         if learning:
             self.learning_by_simulation()
 
-        prediction = self.network.pi(self.inputData)
-        categorized_prediction = Categorical(prediction)
-        self.selectedID_in_simulation = categorized_prediction.sample().detach().item()
-        self.pi_selected_action = prediction[0][0][self.selectedID_in_simulation]
-
+        if self.queues_for_multiprocessing == None:
+            [self.selectedID_in_simulation, self.pi_selected_action] = self.inference_in_simulation(self.inputData)
+        else:
+            if self.queues_for_multiprocessing["actors_act_container"].qsize() > 0:
+                [self.selectedID_in_simulation, self.pi_selected_action] = self.queues_for_multiprocessing[
+                    "actors_act_container"
+                ].get()
         self.trade_in_simulation(self.selectedID_in_simulation)
         self.exiledCodeSell()
-        return
+
+    def inference_in_simulation(self, inputData):
+        """inputData를 얻어서 추론하여 결정한 행동을 반환"""
+        prediction = self.network.pi(inputData)
+        categorized_prediction = Categorical(prediction)
+        selectedID = categorized_prediction.sample().detach().item()
+        return [selectedID, prediction[0][0][selectedID]]
 
     def momentMovementForward(self):
         """시점을 1분 앞으로 이동"""

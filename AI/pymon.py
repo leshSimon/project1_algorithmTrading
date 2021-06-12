@@ -1,3 +1,4 @@
+import queue
 from random import randint
 from AI.components.atReal.actor_critic import ActorCritic
 import torch
@@ -24,6 +25,7 @@ class PyMon(ActorCritic):
         gradient_update_step_for_A3C: int = randint(5, 7),
         device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
         target_database_name: str = "selected_by_code1",
+        queues_for_multiprocessing=None,
     ):
         """인자를 받아서 self에 저장하는 공간."""
         super().__init__()
@@ -35,6 +37,7 @@ class PyMon(ActorCritic):
         self.device = device
         self.network_global = network_global
         self.target_database_name: str = target_database_name
+        self.queues_for_multiprocessing = queues_for_multiprocessing
 
         print(f"cuda GPU is available?: {torch.cuda.is_available()}")
         print(f"PyMon {name} initialized ✅")

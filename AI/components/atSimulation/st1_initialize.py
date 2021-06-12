@@ -31,6 +31,8 @@ class St1_initialize_actorCritic:
         self.inputData = None
         self.simulationInit()
         self.ai_act_kinds_state: int = 0
+        self.observer_num = self.target_database_name[-1]
+        self.momentMoveStep = 0
 
     def networkSet(self):
         """신경망 가동을 위한 초기 설정"""
