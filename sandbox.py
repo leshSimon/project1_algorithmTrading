@@ -31,17 +31,21 @@ class momomo:
         print("ggggg")
 
 
-if __name__ == "__main__":
-    num_processes = 4
-    model_g = ActorCriticNetwork(input_size=1)
-    model_g.share_memory()
-    momoin = momomo()
+# if __name__ == "__main__":
+#     num_processes = 4
+#     model_g = ActorCriticNetwork(input_size=1)
+#     model_g.share_memory()
+#     momoin = momomo()
 
-    processes = []
-    for rank in range(num_processes):
-        p = mp.Process(target=train, args=(momoin,))
-        p.start()
-        processes.append(p)
-    for p in processes:
-        p.join()
+#     processes = []
+#     for rank in range(num_processes):
+#         p = mp.Process(target=train, args=(momoin,))
+#         p.start()
+#         processes.append(p)
+#     for p in processes:
+#         p.join()
 
+import torch
+
+print(torch.cuda.get_device_name())
+print(torch.cuda.is_available())
