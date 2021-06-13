@@ -106,7 +106,7 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
 
     def change_selected_stocks_one(self):
         """Table하나만 선정 종목 변경"""
-        table_name = "selected_by_code1"
+        table_name = self.target_database_name
         selected_stock_list200 = [i + 1 for i in np.random.choice(500, 200, replace=False)]
         selected_stock_list200.sort(key=lambda x: x)
         self.mysql.mutation(f"TRUNCATE TABLE {table_name};")

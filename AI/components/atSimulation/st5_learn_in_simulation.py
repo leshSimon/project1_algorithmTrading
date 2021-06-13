@@ -17,7 +17,8 @@ class St5_learn_in_simulation(St4_trade_calculate):
         if self.pi_selected_action == None or self.pi_selected_action.detach() == 0 or len(self.inputData) == 0:
             return
 
-        reward: float = self.reward_calculate()
+        currentValue: float = self.currentAssetValue_in_simulation()
+        reward: float = self.reward_calculate(currentValue)
         if self.queues_for_multiprocessing == None:
             Loss = self.loss_calculate(reward, self.inputData_old, self.inputData, self.pi_selected_action)
             if self.network_global == None:
@@ -27,25 +28,25 @@ class St5_learn_in_simulation(St4_trade_calculate):
         else:
             self.observation_save_to_queue(reward)
 
+        if currentValue < 80000:
+            self.deposit_reset(currentValue)
+
         self.inputData_old = copy.deepcopy(self.inputData).to(self.device)
 
-    def reward_calculate(self):
+    def reward_calculate(self, currentValue: float):
         """보상의 크기를 계산한다"""
         [hour, minute] = self.mySituation[2:4]
         reward = 0
         if hour == 15 and minute == 19:
-            currentValue = self.currentAssetValue_in_simulation()
             reward = currentValue / self.baselineValue - 1
             reward *= 2
             self.baselineValue = currentValue
             self.save_network_self_weights()
         elif hour % 2 == 0 and minute == 0:
-            currentValue = self.currentAssetValue_in_simulation()
             reward = currentValue / self.interimBaselineValue - 1
             reward *= 1.3
             self.interimBaselineValue = currentValue
         elif minute % 15 == 12:
-            currentValue = self.currentAssetValue_in_simulation()
             reward = currentValue / self.per15minuteValue - 1
             self.per15minuteValue = currentValue
         reward *= 10
@@ -110,6 +111,14 @@ class St5_learn_in_simulation(St4_trade_calculate):
             if self.step % self.globalNetSaveStep == 0:
                 self.save_network_global_weights()
                 self.step %= update_step
+
+    def deposit_reset(self, currentValue: float):
+        """지속적인 학습을 위한 예수금 초기화"""
+        self.deposit_dp2 = 1000000
+        self.inputData[0] = 1000000
+        self.baselineValue = currentValue
+        self.interimBaselineValue = currentValue
+        self.per15minuteValue = currentValue
 
     def save_network_self_weights(self):
         """자신 인스턴스의 상태를 외부 파일로 저장"""
