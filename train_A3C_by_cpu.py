@@ -16,7 +16,7 @@ def train_one_net(network_g, actor_name: str, rank: int, device):
 
 
 if __name__ == "__main__":
-    actors = ["학생1", "학생2", "학생3"]
+    actors = ["학생1", "학생2", "학생3", "학생4"]
     device = torch.device("cpu")
 
     network_global = PyMon(device=device)
