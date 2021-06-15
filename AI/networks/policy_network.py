@@ -7,16 +7,19 @@ class PolicyNetwork(nn.Module):
         super(PolicyNetwork, self).__init__()
         self.dropout_ratio = dropout_ratio
 
-        self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=3, dropout=dropout_ratio)
-        self.dropout = nn.Dropout(p=dropout_ratio)
-        self.affine = nn.Linear(hidden_size, out_size)
+        self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=1, dropout=dropout_ratio)
+        self.affine1 = nn.Linear(hidden_size, hidden_size)
+        self.affine2 = nn.Linear(hidden_size, out_size)
         self.softmax = nn.Softmax(dim=2)
 
     def __call__(self, x):
 
         output, _ = self.lstm(x)
-        y = self.dropout(output)
-        y = self.affine(y)
+        y = F.dropout(output, p=self.dropout_ratio)
+
+        y = F.relu(self.affine1(y))
+        y = self.affine2(y)
+
         y = self.softmax(y)
 
         return y
