@@ -104,21 +104,21 @@ class St5_learn_in_simulation(St4_trade_calculate):
         """
         self.step += 1
         update_step = self.gradient_update_step_for_A3C
-        # self.accumulatedLoss = self.accumulatedLoss + Loss
+        self.accumulatedLoss = self.accumulatedLoss + Loss
 
-        # if self.step > 0 and self.step % update_step == 0:
-        self.optimizer.zero_grad()
-        Loss.backward()
+        if self.step > 0 and self.step % update_step == 0:
+            self.optimizer.zero_grad()
+            Loss.backward()
 
-        for global_param, local_param in zip(self.network_global.parameters(), self.network.parameters()):
-            global_param._grad = local_param.grad
+            for global_param, local_param in zip(self.network_global.parameters(), self.network.parameters()):
+                global_param._grad = local_param.grad
 
-        self.optimizer.step()
-        self.network.load_state_dict(self.network_global.state_dict())
+            self.optimizer.step()
+            self.network.load_state_dict(self.network_global.state_dict())
 
-        if self.step % self.globalNetSaveStep == 0:
-            self.save_network_global_weights()
-            self.step %= update_step
+            if self.step % self.globalNetSaveStep == 0:
+                self.save_network_global_weights()
+                self.step %= update_step
 
     def deposit_reset(self, currentValue: float):
         """지속적인 학습을 위한 예수금 초기화"""

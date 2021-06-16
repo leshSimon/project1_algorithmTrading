@@ -19,7 +19,7 @@ class PyMon(ActorCritic):
         self,
         the_number_of_choices: int = 4201,
         securities_transaction_fees: float = 0.0035,
-        future_value_retention_rate: float = 0.90,
+        future_value_retention_rate: float = 0.9,
         name: str = "Tester",
         network_global=None,
         gradient_update_step_for_A3C: int = randint(5, 7),
