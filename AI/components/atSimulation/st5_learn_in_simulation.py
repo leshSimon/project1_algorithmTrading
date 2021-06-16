@@ -122,8 +122,8 @@ class St5_learn_in_simulation(St4_trade_calculate):
 
     def deposit_reset(self, currentValue: float):
         """지속적인 학습을 위한 예수금 초기화"""
-        self.deposit_dp2 = 1000000
-        self.inputData[0] = 1000000
+        self.deposit_dp2 = 800000
+        self.inputData[0] = 800000
         self.baselineValue = currentValue
         self.interimBaselineValue = currentValue
         self.per15minuteValue = currentValue
