@@ -19,13 +19,14 @@ class PyMon(ActorCritic):
         self,
         the_number_of_choices: int = 4201,
         securities_transaction_fees: float = 0.0035,
-        future_value_retention_rate: float = 0.995,
+        future_value_retention_rate: float = 0.90,
         name: str = "Tester",
         network_global=None,
         gradient_update_step_for_A3C: int = randint(5, 7),
         device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
         target_database_name: str = "selected_by_code1",
         queues_for_multiprocessing=None,
+        verbose: bool = True,
     ):
         """인자를 받아서 self에 저장하는 공간."""
         super().__init__()
@@ -38,8 +39,9 @@ class PyMon(ActorCritic):
         self.network_global = network_global
         self.target_database_name: str = target_database_name
         self.queues_for_multiprocessing = queues_for_multiprocessing
+        self.verbose = verbose
 
-        print(f"cuda GPU is available?: {torch.cuda.is_available()}")
+        print(f"CUDA is available?: {torch.cuda.is_available()}")
         print(f"PyMon {name} initialized ✅")
 
         self.situationInit()

@@ -20,7 +20,9 @@ class St5_learn_in_simulation(St4_trade_calculate):
         currentValue: float = self.currentAssetValue_in_simulation()
         reward: float = self.reward_calculate(currentValue)
         if self.queues_for_multiprocessing == None:
-            Loss = self.loss_calculate(reward, self.inputData_old, self.inputData, self.pi_selected_action)
+            Loss = self.loss_calculate(
+                reward, self.inputData_old, self.inputData, self.pi_selected_action, currentValue
+            )
             if self.network_global == None:
                 self.weight_update_in_simulation(Loss)
             else:
@@ -53,7 +55,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
 
         return reward
 
-    def loss_calculate(self, reward: float, inputData_old, inputData, pi):
+    def loss_calculate(self, reward: float, inputData_old, inputData, pi, currentValue):
         """손실함수를 정의한다"""
         v_s = self.network.v(inputData_old)
         v_s_prime = self.network.v(inputData)
@@ -61,19 +63,26 @@ class St5_learn_in_simulation(St4_trade_calculate):
         TD_target = reward + self.future_value_retention_rate * v_s_prime
         delta = TD_target - v_s
 
-        v_Loss = F.smooth_l1_loss(v_s, TD_target.detach())
+        v_Loss = F.mse_loss(v_s, TD_target.detach())
         pi_Loss = -(torch.log(pi)) * delta.detach()
         Loss = pi_Loss + v_Loss
 
         if self.name != "Learner":
-            print(
-                f"===Actor: {self.name}========================================",
-                f"총자산: {round(self.currentAssetValue_in_simulation())}, 잔고: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]} / ACT: {self.selectedID_in_simulation} {self.AI_act_explicate()}",
-                f"v 손실: {format(v_Loss.item(), '.8f')}, pi 손실: {format(pi_Loss.item(),'.8f')}, 보상: {round(reward,4)}, 선택확률: {format(self.pi_selected_action.item(),'.8f')}",
-                sep="\n",
-            )
+            if self.verbose == True:
+                self.report(currentValue, v_Loss, pi_Loss, reward)
+            else:
+                if self.step % 60 == 0:
+                    self.report(currentValue, v_Loss, pi_Loss, reward)
 
         return Loss
+
+    def report(self, currentValue, v_Loss, pi_Loss, reward):
+        print(
+            f"===Actor: {self.name}==================",
+            f"총자산: {round(currentValue)}, 잔고: {math.floor(self.deposit_dp2)} at {self.mySituation[1:4]} / ACT: {self.selectedID_in_simulation} {self.AI_act_explicate()}",
+            f"v 손실: {format(v_Loss.item(), '.8f')}, pi 손실: {format(pi_Loss.item(),'.8f')}, 보상: {round(reward,4)}, 확률: {format(self.pi_selected_action.item(),'.8f')}",
+            sep="\n",
+        )
 
     def weight_update_in_simulation(self, Loss):
         """단일 개체일때 신경망의 역전파를 수행한다."""
@@ -95,22 +104,21 @@ class St5_learn_in_simulation(St4_trade_calculate):
         """
         self.step += 1
         update_step = self.gradient_update_step_for_A3C
-        self.accumulatedLoss = self.accumulatedLoss + Loss
+        # self.accumulatedLoss = self.accumulatedLoss + Loss
 
-        if self.step > 0 and self.step % update_step == 0:
-            self.optimizer.zero_grad()
-            self.accumulatedLoss.backward()
+        # if self.step > 0 and self.step % update_step == 0:
+        self.optimizer.zero_grad()
+        Loss.backward()
 
-            for global_param, local_param in zip(self.network_global.parameters(), self.network.parameters()):
-                global_param._grad = local_param.grad
+        for global_param, local_param in zip(self.network_global.parameters(), self.network.parameters()):
+            global_param._grad = local_param.grad
 
-            self.optimizer.step()
-            self.accumulatedLoss = 0
-            self.network.load_state_dict(self.network_global.state_dict())
+        self.optimizer.step()
+        self.network.load_state_dict(self.network_global.state_dict())
 
-            if self.step % self.globalNetSaveStep == 0:
-                self.save_network_global_weights()
-                self.step %= update_step
+        if self.step % self.globalNetSaveStep == 0:
+            self.save_network_global_weights()
+            self.step %= update_step
 
     def deposit_reset(self, currentValue: float):
         """지속적인 학습을 위한 예수금 초기화"""

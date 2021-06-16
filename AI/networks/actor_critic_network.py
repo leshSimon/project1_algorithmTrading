@@ -6,18 +6,16 @@ import torch.nn as nn
 
 class ActorCriticNetwork(nn.Module):
     def __init__(
-        self,
-        input_size: int = 1401,
-        hidden_size: int = 170,
-        policy_network_outsize: int = 4201,
-        dropout_ratio: float = 0.5,
+        self, input_size: int = 1401, policy_network_outsize: int = 4201, dropout_ratio: float = 0.5,
     ):
         super(ActorCriticNetwork, self).__init__()
-        self.sharing_network = SharingNetwork(input_size=input_size, hidden_size=200, dropout_ratio=dropout_ratio)
+
+        self.sharing_network = SharingNetwork(input_size=input_size, dropout_ratio=dropout_ratio)
+
         self.policy_network = PolicyNetwork(
-            hidden_size=hidden_size, out_size=policy_network_outsize, dropout_ratio=dropout_ratio
+            input_size=180, out_size=policy_network_outsize, dropout_ratio=dropout_ratio
         )
-        self.value_network = ValueNetwork(hidden_size=hidden_size, dropout_ratio=dropout_ratio)
+        self.value_network = ValueNetwork(input_size=180, dropout_ratio=dropout_ratio)
 
     def pi(self, x):
         y = self.sharing_network(x)
