@@ -85,7 +85,10 @@ class St5_learn_in_simulation(St4_trade_calculate):
         )
 
     def weight_update_in_simulation(self, Loss):
-        """단일 개체일때 신경망의 역전파를 수행한다."""
+        """
+        단일 개체일때 신경망의 역전파를 수행한다.        
+        메모리 누수 위험에 가장 크게 노출되어있으니 주의한다.
+        """
         self.optimizer.zero_grad()
         Loss.backward()
         self.optimizer.step()
@@ -101,6 +104,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
         """
         multi processing 환경에서
         다중 행위 개체 중 하나일때 신경망의 역전파를 수행한다.
+        메모리 누수 위험에 가장 크게 노출되어있으니 주의한다.
         """
         self.step += 1
         update_step = self.gradient_update_step_for_A3C
@@ -108,13 +112,15 @@ class St5_learn_in_simulation(St4_trade_calculate):
 
         if self.step > 0 and self.step % update_step == 0:
             self.optimizer.zero_grad()
-            Loss.backward()
+            self.accumulatedLoss.backward()
 
             for global_param, local_param in zip(self.network_global.parameters(), self.network.parameters()):
                 global_param._grad = local_param.grad
 
             self.optimizer.step()
             self.network.load_state_dict(self.network_global.state_dict())
+
+            self.accumulatedLoss = 0
 
             if self.step % self.globalNetSaveStep == 0:
                 self.save_network_global_weights()
