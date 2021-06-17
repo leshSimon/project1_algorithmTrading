@@ -68,7 +68,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
         Loss = pi_Loss + v_Loss
 
         if self.name != "Learner":
-            if self.verbose == True:
+            if self.verbose == True and not torch.cuda.is_available():
                 self.report(currentValue, v_Loss, pi_Loss, reward)
             else:
                 if self.step % 60 == 0:
