@@ -41,17 +41,13 @@ class St5_learn_in_simulation(St4_trade_calculate):
         reward = 0
         if hour == 15 and minute == 19:
             reward = currentValue / self.baselineValue - 1
-            reward *= 2
             self.baselineValue = currentValue
             self.save_network_self_weights()
         elif hour % 2 == 0 and minute == 0:
             reward = currentValue / self.interimBaselineValue - 1
-            reward *= 1.3
+            reward *= 0.3
             self.interimBaselineValue = currentValue
-        elif minute % 15 == 12:
-            reward = currentValue / self.per15minuteValue - 1
-            self.per15minuteValue = currentValue
-        reward *= 10
+        reward *= 100
 
         return reward
 
@@ -132,7 +128,6 @@ class St5_learn_in_simulation(St4_trade_calculate):
         self.inputData[0] = 800000
         self.baselineValue = currentValue
         self.interimBaselineValue = currentValue
-        self.per15minuteValue = currentValue
 
     def save_network_self_weights(self):
         """자신 인스턴스의 상태를 외부 파일로 저장"""

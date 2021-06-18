@@ -16,7 +16,7 @@ def train_one_net(network_g, actor_name: str, rank: int, device):
 
     epoch: int = 300
     for _ in range(epoch):
-        network_local.simulationInit(startDate=20200515)
+        network_local.simulationInit(startDate=20200310)
         while network_local.mySituation[1] < network_local.today:
             network_local.simulation_at_one_point(learning=True)
         network_local.change_selected_stocks_one()

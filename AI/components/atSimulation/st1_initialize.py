@@ -64,7 +64,6 @@ class St1_initialize_actorCritic:
         self.init_value: float = self.deposit_dp2
         self.baselineValue: float = self.currentAssetValue_in_simulation()
         self.interimBaselineValue = self.baselineValue
-        self.per15minuteValue = self.baselineValue
         self.inputData_old = None
         self.pi_selected_action = None
 
