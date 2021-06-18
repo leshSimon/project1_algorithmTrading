@@ -47,6 +47,11 @@ class St5_learn_in_simulation(St4_trade_calculate):
             reward = currentValue / self.interimBaselineValue - 1
             reward *= 0.3
             self.interimBaselineValue = currentValue
+        elif minute % 15 == 12:
+            reward = currentValue / self.per15minuteValue - 1
+            self.per15minuteValue = currentValue
+            reward *= 0.05
+
         reward *= 100
 
         return reward
