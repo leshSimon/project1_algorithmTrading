@@ -44,7 +44,7 @@
   
   12- Data Import (*.sql) to linux
     sudo -i 자격에서
-    mysql -u root -p algorithm_trading < aaaaaaaa.sql
+    mysql -uroot -p[비번] algorithm_trading < aaaaaaaa.sql
   
   12- MySQL 계정 접속 관련
     status       # 정보확인
