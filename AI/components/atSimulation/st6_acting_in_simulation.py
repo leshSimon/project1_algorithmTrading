@@ -76,6 +76,9 @@ class St6_acting_in_simulation(St5_learn_in_simulation):
             year += 1
 
     def exiledCodeSell(self):
+        """
+        일정 기간 연속되어 정보가 주어지지 않은 주식을 강제로 청산하는 함수
+        """
         codeListInPortfolio = [i[0] for i in self.portfolio]
         for idx, value in enumerate(self.exileCodeStack):
             if value > 6 * 5:

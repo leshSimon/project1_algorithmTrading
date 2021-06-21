@@ -20,27 +20,23 @@ class St3_make_input_in_simulation(St2_library_in_simulation):
             targetStockCode = stock_in_protfolio[0]
             if targetStockCode != -1:
                 codeInPfInMarket: bool = False
-                for idx_in_market, stock_in_market in enumerate(dataFromDB):
+                for stock_in_market in dataFromDB:
                     if targetStockCode == stock_in_market[0]:
                         self.portfolio[idx][3] = stock_in_market[4]
-                        menuForInput[idx_in_market][6] = stock_in_protfolio[1]
-                        menuForInput[idx_in_market][7] = stock_in_protfolio[4]
+                        menuForInput[targetStockCode][6] = stock_in_protfolio[1]
+                        menuForInput[targetStockCode][7] = stock_in_protfolio[4]
                         codeInPfInMarket = True
                         self.exileCodeStack[targetStockCode] = 0
                         break
                 if not codeInPfInMarket:
                     self.exileCodeStack[targetStockCode] += 1
-                    for i in range(200):
-                        idx = i * 7 + 1
-                        if menuForInput[idx][0] == 0:
-                            menuForInput[idx] = np.concatenate(
-                                [
-                                    [targetStockCode],
-                                    [stock_in_protfolio[3] for _ in range(4)],
-                                    [0, stock_in_protfolio[1], stock_in_protfolio[4]],
-                                ]
-                            )
-                            break
+                    menuForInput[targetStockCode] = np.concatenate(
+                        [
+                            [targetStockCode],
+                            [stock_in_protfolio[3] for _ in range(4)],
+                            [0, stock_in_protfolio[1], stock_in_protfolio[4]],
+                        ]
+                    )
 
         self.menu = menuForInput
         menuForInput = [i[1:] for i in menuForInput]

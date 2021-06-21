@@ -8,13 +8,13 @@ class ActorCriticNetwork(nn.Module):
     def __init__(self, input_size: int = 1401, policy_network_outsize: int = 4201):
         super(ActorCriticNetwork, self).__init__()
 
-        self.gru = nn.GRU(input_size=input_size, hidden_size=180, num_layers=1)
+        self.lstm = nn.LSTM(input_size=input_size, hidden_size=180, num_layers=1)
 
         self.policy_network = PolicyNetwork(input_size=180, out_size=policy_network_outsize)
         self.value_network = ValueNetwork(input_size=180)
 
     def bottomNetwork(self, x):
-        output, _ = self.gru(x)
+        output, _ = self.lstm(x)
         y = F.dropout(output, p=0.5)
         return y
 

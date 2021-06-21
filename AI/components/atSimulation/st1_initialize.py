@@ -45,10 +45,10 @@ class St1_initialize_actorCritic:
         if self.network_global == None:
             if os.path.exists(self.weightsFilePath):
                 self.network.load_state_dict(torch.load(self.weightsFilePath))
-            self.optimizer = optim.SGD(self.network.parameters(), lr=0.001, momentum=0.9)
+            self.optimizer = optim.SGD(self.network.parameters(), lr=0.00025, momentum=0.9, nesterov=True)
         else:
             self.network.load_state_dict(self.network_global.state_dict())
-            self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.001, momentum=0.9)
+            self.optimizer = optim.SGD(self.network_global.parameters(), lr=0.00025, momentum=0.9, nesterov=True)
 
         self.accumulatedLoss = 0
         self.globalNetSaveStep = 60 * 5 * random.randint(4, 5) + random.randint(0, 59)

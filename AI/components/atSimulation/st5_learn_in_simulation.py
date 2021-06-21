@@ -43,16 +43,15 @@ class St5_learn_in_simulation(St4_trade_calculate):
             reward = currentValue / self.baselineValue - 1
             self.baselineValue = currentValue
             self.save_network_self_weights()
+            reward *= 1
         elif hour % 2 == 0 and minute == 0:
             reward = currentValue / self.interimBaselineValue - 1
-            reward *= 0.3
+            reward *= 0.2
             self.interimBaselineValue = currentValue
         elif minute % 15 == 12:
             reward = currentValue / self.per15minuteValue - 1
             self.per15minuteValue = currentValue
-            reward *= 0.05
-
-        reward *= 100
+            reward *= 0.02
 
         return reward
 
@@ -65,7 +64,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
         delta = TD_target - v_s
 
         v_Loss = F.mse_loss(v_s, TD_target.detach())
-        pi_Loss = -(torch.log(pi)) * delta.detach()
+        pi_Loss = -torch.log(pi) * delta.detach()
         Loss = pi_Loss + v_Loss
 
         if self.name != "Learner":
