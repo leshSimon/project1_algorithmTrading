@@ -133,6 +133,7 @@ class St5_learn_in_simulation(St4_trade_calculate):
         self.inputData[0] = 800000
         self.baselineValue = currentValue
         self.interimBaselineValue = currentValue
+        self.per15minuteValue = currentValue
 
     def save_network_self_weights(self):
         """자신 인스턴스의 상태를 외부 파일로 저장"""
