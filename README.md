@@ -1,4 +1,9 @@
 ## project1_algorithmTrading
+
+![playing momont](https://user-images.githubusercontent.com/54647455/207383532-03c553e0-6870-4c8a-9470-9004b78a9f2d.png)
+
+
+
 --------------
 ### 1. Purpose
 Making automatic stock trading algorithm, in short, AI trader
