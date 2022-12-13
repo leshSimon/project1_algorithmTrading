@@ -1,6 +1,4 @@
 ## project1_algorithmTrading
---------------
-
 
 
 --------------
