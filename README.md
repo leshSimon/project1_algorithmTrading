@@ -3,14 +3,14 @@
 
 
 
-#### Purpose
 --------------
+### Purpose
 Making automatic stock trading algorithm
 
 
 
-#### Used stacks
 --------------
+### Used stacks
 + Database to save past coronical stock prices
   + MySQL
   + Schema of list of cmpanies and prices
