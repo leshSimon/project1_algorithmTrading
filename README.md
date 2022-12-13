@@ -1,4 +1,5 @@
-## project1_algorithmTrading
+# project1_algorithmTrading
+--------------
 
 ### Purpose
 --------------
