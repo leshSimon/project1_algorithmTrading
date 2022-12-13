@@ -15,7 +15,7 @@ Making automatic stock trading algorithm
   + Schema of list of cmpanies and prices
   + Open, high, low, close price per one day
 
-+ Deep learning layer to construct Actor who makes dicisions and Critic which estimates the value of dicision
++ Deep learning layer
   + In order to construct them
     + Actor who makes dicisions
     + Critic which estimates the value of dicision
