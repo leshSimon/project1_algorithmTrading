@@ -39,30 +39,31 @@ In short, AI trader
 -------------------
 ### 3. Mechanism
 + Process
-  1. Open GUI
-  2. Initialize
+  + Open GUI
+  + Initialize
     + Connecting to database
     + Setting hyperparameters of networks
-  3. Get informations from database
-  4. Refine the informations into inputs
-  5. Put the inputs into policy network(pi)
-  6. Decide what action to take by pi
-  7. Act
-  8. Calculate value of current state
-  9. Calculate reward of value
-  10. Calculate Loss by using the reward
+  + Get informations from database
+  + Refine the informations into inputs
+  + Put the inputs into policy network(pi)
+  + Decide what action to take by pi
+  + Act
+  + Calculate value of current state
+  + Calculate reward of value
+  + Calculate Loss by using the reward
   ```
   v_s = self.network.v(inputData_old)
-        v_s_prime = self.network.v(inputData)
+  v_s_prime = self.network.v(inputData)
 
-        TD_target = reward + self.future_value_retention_rate * v_s_prime
-        delta = TD_target - v_s
+  TD_target = reward + self.future_value_retention_rate * v_s_prime
+  delta = TD_target - v_s
 
-        v_Loss = F.mse_loss(v_s, TD_target.detach())
-        pi_Loss = -torch.log(pi) * delta.detach()
-        Loss = pi_Loss + v_Loss
-  
+  v_Loss = F.mse_loss(v_s, TD_target.detach())
+  pi_Loss = -torch.log(pi) * delta.detach()
+  Loss = pi_Loss + v_Loss  
   ```
+  + Backpropagation and update one step
+  + Repeat
 
 
 -----------------------
