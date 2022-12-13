@@ -1,3 +1,10 @@
 ## project1_algorithmTrading
 
-testing
+####Purpose
+--------------
+Making automatic stock trading algorithm
+
+
+####Used stacks
+--------------
+1. Database
