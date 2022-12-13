@@ -14,19 +14,23 @@ In short, AI trader
   + Python
 
 + Database
-  + In order to save past chronological stock prices
+  + Save past chronological stock prices
   + MySQL
   + Schema of a list of companies and prices
   + Open, high, low, close price per one day
 
 + Deep learning layer
-  + In order to construct them
-    + Policy network that makes decisions
-    + Value network which estimates the value of decision
+  + Constructing
+    + Policy network
+    + Value network
   + Pytorch
   + LSTM
-    + Because stock price information is time series data
 
 + Reinforcement learning
-  + In order to define loss function
-  + 
+  + Defining loss function
+  + A3C
+
++ API
+  + Securities company's
+  + In order to get information
+  + And manipulate real trading
