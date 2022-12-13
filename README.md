@@ -1,8 +1,7 @@
 ## project1_algorithmTrading
 --------------
 ### 1. Purpose
-Making automatic stock trading algorithm
-In short, AI trader
+Making automatic stock trading algorithm, in short, AI trader
 
 --------------
 ### 2. Used stacks
