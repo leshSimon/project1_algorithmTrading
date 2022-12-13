@@ -1,9 +1,5 @@
 ## project1_algorithmTrading
 
-![playing momont](https://user-images.githubusercontent.com/54647455/207383532-03c553e0-6870-4c8a-9470-9004b78a9f2d.png)
-
-
-
 --------------
 ### 1. Purpose
 Making automatic stock trading algorithm, in short, AI trader
@@ -68,10 +64,14 @@ Making automatic stock trading algorithm, in short, AI trader
   ```
   + Backpropagation and update one step
   + Repeat
+--------------------------
+### 4. Implmenting Image
+![playing momont](https://user-images.githubusercontent.com/54647455/207383532-03c553e0-6870-4c8a-9470-9004b78a9f2d.png)
 
 
 -----------------------
-### 4. Issues
+### 5. Issues
 + Collision between Nvidia cuda module and asyncronization.
 + Learning process is so slow that it can't be finished by home level desktop computer.
 + How to set the hyperparameters to optimize is still unknown.
+
