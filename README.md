@@ -9,12 +9,17 @@ Making automatic stock trading algorithm
 
 --------------
 ### Used stacks
-+ Database to save past coronical stock prices
++ Database
+  + In order to save past coronical stock prices
   + MySQL
   + Schema of list of cmpanies and prices
   + Open, high, low, close price per one day
 
-+ Deep learning matrix layer for Actor who makes dicisions and Critic which estimates the value of dicision
++ Deep learning layer to construct Actor who makes dicisions and Critic which estimates the value of dicision
+  + In order to construct them
+    + Actor who makes dicisions
+    + Critic which estimates the value of dicision
   + Pytorch
   + LSTM
-  + 
+
++ 
