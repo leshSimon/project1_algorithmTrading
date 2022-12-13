@@ -74,4 +74,5 @@ Making automatic stock trading algorithm, in short, AI trader
 + Collision between Nvidia cuda module and asyncronization.
 + Learning process is so slow that it can't be finished by home level desktop computer.
 + How to set the hyperparameters to optimize is still unknown.
++ It's still not sure that machine learning can be applied to this type of environment.
 
