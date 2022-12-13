@@ -2,19 +2,19 @@
 
 
 --------------
-### Purpose
+### 1. Purpose
 Making automatic stock trading algorithm
 In short, AI trader
 
 
 
 --------------
-### Used stacks
+### 2. Used stacks
 + Language
   + Python
 
 + Database
-  + Save past chronological stock prices
+  + Saving past chronological stock prices
   + MySQL
   + Schema of a list of companies and prices
   + Open, high, low, close price per one day
@@ -34,3 +34,5 @@ In short, AI trader
   + Securities company's
   + In order to get information
   + And manipulate real trading
+
+-------------------
